@@ -6,7 +6,7 @@ Your project documentation has been consolidated into **5 core files** totaling 
 
 ## Quick Navigation
 
-### 📖 **README.md** (6.8 KB)
+### 📖 **README.md**
 **Start here!** Project overview, quick start guide, and architecture.
 
 **Includes:**
@@ -23,7 +23,7 @@ Your project documentation has been consolidated into **5 core files** totaling 
 
 ---
 
-### 📋 **SCHEMA.md** (11.2 KB)
+### 📋 **SCHEMA.md**
 **Complete field reference** for the 122-field data structure.
 
 **Includes:**
@@ -43,7 +43,7 @@ Your project documentation has been consolidated into **5 core files** totaling 
 
 ---
 
-### 📐 **RULES.md** (12.7 KB)
+### 📐 **RULES.md**
 **Harmonization logic documentation** for all inference functions.
 
 **Includes:**
@@ -62,7 +62,7 @@ Your project documentation has been consolidated into **5 core files** totaling 
 
 ---
 
-### 📚 **CODEBOOK.md** (12.7 KB)
+### 📚 **CODEBOOK.md**
 **Data dictionary and enumeration reference** for all standardized values.
 
 **Includes:**
@@ -87,7 +87,7 @@ Your project documentation has been consolidated into **5 core files** totaling 
 
 ---
 
-### 📖 **UPDATES.md** (12.4 KB)
+### 📖 **UPDATES.md**
 **Release notes, enhancement history, and future roadmap.**
 
 **Includes:**
