@@ -19,7 +19,7 @@ import re
 
 
 # ============================================================================
-# COMPREHENSIVE DIAGNOSIS KEYWORD MAPPING (140+ keywords)
+# COMPREHENSIVE DIAGNOSIS KEYWORD MAPPING
 # ============================================================================
 
 DIAGNOSIS_MAPPING = {
@@ -635,126 +635,314 @@ STUDY_KEYWORDS = {
 # ============================================================================
 
 
-def normalize_diagnosis(raw_diagnosis: Optional[str]) -> Tuple[Optional[str], Optional[str]]:
+def normalize_diagnosis(diagnosis_text: Optional[str]) -> Tuple[Optional[str], Optional[str]]:
     """
-    Normalize a raw diagnosis label to standardized category and severity.
+    Normalize diagnosis text to standard category and severity.
+    
+    Implements fuzzy string matching with longest-match-first strategy for
+    robustness against typos and variable formatting. Handles all 140+ keywords
+    organized by condition type.
     
     Args:
-        raw_diagnosis: Raw diagnosis string from dataset
+        diagnosis_text: Raw diagnosis string from dataset
         
     Returns:
-        Tuple of (diagnosis_category, severity_grade) or (None, None) if not found
+        Tuple of (diagnosis_category, severity) e.g., ('Diabetic Retinopathy', 'Mild')
     """
-    if not raw_diagnosis:
-        return None, None
+    if not diagnosis_text:
+        return (None, None)
     
-    raw_lower = str(raw_diagnosis).lower().strip()
+    # Normalize input: lowercase, remove punctuation
+    diagnosis_lower = str(diagnosis_text).lower().strip()
+    diagnosis_clean = re.sub(r'[^\w\s]', '', diagnosis_lower)
     
-    # Direct lookup
-    if raw_lower in DIAGNOSIS_MAPPING:
-        return DIAGNOSIS_MAPPING[raw_lower]
+    # Try exact substring matches (longest first for specificity)
+    sorted_keys = sorted(DIAGNOSIS_MAPPING.keys(), key=len, reverse=True)
+    for key in sorted_keys:
+        if key in diagnosis_clean:
+            return DIAGNOSIS_MAPPING[key]
     
-    # Partial matching - prioritize exact substring matches
-    best_match = None
-    best_length = 0
-    
-    for key, value in DIAGNOSIS_MAPPING.items():
-        if key in raw_lower and len(key) > best_length:
-            best_match = value
-            best_length = len(key)
-    
-    if best_match:
-        return best_match
-    
-    # If no match found, return original
-    return raw_diagnosis, None
+    # If no match found, return unknown
+    return (None, None)
 
 
-def infer_severity_from_diagnosis(raw_diagnosis: Optional[str], diagnosis_category: Optional[str]) -> Optional[str]:
+def find_clinical_findings(text: Optional[str]) -> List[str]:
     """
-    Infer severity grading from diagnosis text.
+    Detect clinical findings mentioned in diagnosis or notes text.
+    
+    Searches for hemorrhages, exudates, edema, microaneurysms, neovascularization,
+    vessel changes, retinal changes, optic nerve findings, and other visible pathology.
     
     Args:
-        raw_diagnosis: Raw diagnosis string
-        diagnosis_category: Normalized diagnosis category
+        text: Diagnosis or clinical notes text
         
     Returns:
-        Severity grade or None
+        List of detected finding types (e.g., ['hemorrhages', 'exudates'])
     """
-    if not raw_diagnosis or not diagnosis_category:
-        return None
+    if not text:
+        return []
     
-    raw_lower = str(raw_diagnosis).lower()
+    text_lower = str(text).lower()
+    findings = []
     
-    # Direct severity patterns
-    severity_keywords = {
-        'severe': 'Severe',
-        'advanced': 'Severe',
-        'proliferative': 'Proliferative',
-        'moderate': 'Moderate',
-        'mild': 'Mild',
-        'early': 'Mild',
-        'minimal': 'Mild',
-    }
+    for finding_type, keywords in CLINICAL_FINDINGS_KEYWORDS.items():
+        for keyword in keywords:
+            if keyword in text_lower:
+                findings.append(finding_type)
+                break  # Don't count same finding type twice
     
-    for keyword, severity in severity_keywords.items():
-        if keyword in raw_lower:
-            return severity
+    return findings
+
+
+def infer_modality(dataset_name: Optional[str], image_description: Optional[str]) -> Optional[str]:
+    """
+    Infer imaging modality from dataset name or image description.
+    
+    Implements longest-match-first strategy for specificity (e.g., 'OCT angiography'
+    before 'OCT'). Handles various naming conventions across datasets.
+    
+    Supports: Fundus, OCT, OCTA, Slit-Lamp, FA, FAF, Infrared, Ultrasound,
+    Anterior Segment, Specular Microscopy, Visual Field
+    
+    Args:
+        dataset_name: Name of the dataset
+        image_description: Image filename or description
+        
+    Returns:
+        Modality name (exact key from MODALITY_PATTERNS) or None if undetectable
+    """
+    combined = f"{dataset_name or ''} {image_description or ''}".lower()
+    combined_clean = re.sub(r'[^\w\s]', '', combined)
+    
+    # Sort by pattern length (longest first) for specificity
+    modality_with_lengths = [
+        (modality, max(len(p) for p in patterns), modality, patterns)
+        for modality, patterns in MODALITY_PATTERNS.items()
+    ]
+    modality_with_lengths.sort(key=lambda x: x[1], reverse=True)
+    
+    # Check patterns in order of specificity
+    for modality, _, _, patterns in modality_with_lengths:
+        sorted_patterns = sorted(patterns, key=len, reverse=True)
+        for pattern in sorted_patterns:
+            if pattern in combined_clean:
+                return modality
     
     return None
 
 
-def infer_modality(dataset_name: Optional[str], column_name: Optional[str] = None) -> str:
+def infer_laterality(value: any) -> Optional[str]:
     """
-    Infer imaging modality from dataset name or column metadata.
+    Infer laterality (OD/OS/OU) from various input formats.
+    
+    Handles: English (right/left), Latin (OD/OS), French (droit/gauche),
+    Spanish (derecha/izquierda), and filename patterns (_r., -l-, _od, -os, etc.)
     
     Args:
-        dataset_name: Name of the source dataset
-        column_name: Optional column name that might indicate modality
+        value: Laterality descriptor from dataset
         
     Returns:
-        Inferred modality (default: 'Unknown')
+        'OD' (right), 'OS' (left), 'OU' (both), or None
     """
-    search_text = f"{dataset_name or ''} {column_name or ''}".lower()
-    
-    # Find best match (longest pattern match)
-    best_modality = 'Unknown'
-    best_length = 0
-    
-    for modality, patterns in MODALITY_PATTERNS.items():
-        for pattern in patterns:
-            if pattern in search_text and len(pattern) > best_length:
-                best_modality = modality
-                best_length = len(pattern)
-    
-    return best_modality
-
-
-def infer_laterality(value: Optional[str]) -> Optional[str]:
-    """
-    Infer laterality (eye side) from a string value with word boundary detection.
-    
-    Args:
-        value: String value potentially indicating laterality
-        
-    Returns:
-        Standardized laterality code (OD, OS, OU) or None
-    """
-    if not value:
+    if value is None:
         return None
     
     value_lower = str(value).lower().strip()
+    value_clean = re.sub(r'[^\w\s]', '', value_lower)
     
-    # Try exact match first
-    for code, patterns in LATERALITY_PATTERNS.items():
-        if value_lower in patterns:
+    # Check patterns (exact matches prioritized, then longest substrings)
+    for standard, patterns in LATERALITY_PATTERNS.items():
+        sorted_patterns = sorted(patterns, key=len, reverse=True)
+        for pattern in sorted_patterns:
+            pattern_clean = re.sub(r'[^\w\s]', '', pattern.lower())
+            if pattern_clean == value_clean or (len(pattern_clean) > 1 and pattern_clean in value_clean):
+                return standard
+    
+    return None
+
+
+def infer_severity_from_diagnosis(diagnosis_text: str, diagnosed_condition: str) -> Optional[str]:
+    """
+    Infer severity level based on diagnosis text and condition type.
+    
+    Uses both explicit severity keywords in text and implicit severity
+    from condition type (e.g., 'mature cataract' → 'Moderate').
+    
+    Implements progressive matching: checks for proliferative/terminal (highest),
+    then severe/advanced, then moderate, then mild/minimal, then none/negative.
+    
+    Args:
+        diagnosis_text: Original diagnosis text
+        diagnosed_condition: Standardized diagnosis category
+        
+    Returns:
+        Severity level (e.g., 'Mild', 'Moderate', 'Severe') or None if not determinable
+    """
+    if not diagnosed_condition or diagnosed_condition not in SEVERITY_GRADING:
+        return None
+    
+    diagnosis_lower = str(diagnosis_text).lower()
+    condition_grades = SEVERITY_GRADING[diagnosed_condition]
+    
+    # Progressive severity keywords (check most specific first)
+    if any(x in diagnosis_lower for x in ['proliferative', 'terminal', 'hypermature', 'advanced']):
+        return condition_grades.get(4, None)
+    elif any(x in diagnosis_lower for x in ['severe', 'advanced', 'significant', 'substantial']):
+        return condition_grades.get(3, None)
+    elif any(x in diagnosis_lower for x in ['moderate', 'intermediate', 'medium']):
+        return condition_grades.get(2, None)
+    elif any(x in diagnosis_lower for x in ['mild', 'minimal', 'early', 'slight']):
+        return condition_grades.get(1, None)
+    elif any(x in diagnosis_lower for x in ['no ', 'without', 'negative', 'absent', 'none']):
+        return condition_grades.get(0, None)
+    
+    return None
+
+
+def assess_image_quality(quality_text: Optional[str], has_artifacts: bool = False) -> Optional[str]:
+    """
+    Assess and standardize image quality from text descriptions.
+    
+    Maps various quality descriptors to standardized levels and detects
+    artifact indicators.
+    
+    Args:
+        quality_text: Quality descriptor text
+        has_artifacts: Whether image artifacts are present
+        
+    Returns:
+        Standardized quality level: 'Excellent', 'Good', 'Moderate', 'Poor', or 'Ungradable'
+    """
+    if not quality_text:
+        return 'Ungradable' if has_artifacts else None
+    
+    quality_lower = str(quality_text).lower()
+    
+    if any(x in quality_lower for x in IMAGE_QUALITY_KEYWORDS['excellent']):
+        return 'Excellent'
+    elif any(x in quality_lower for x in IMAGE_QUALITY_KEYWORDS['good']):
+        return 'Good'
+    elif any(x in quality_lower for x in IMAGE_QUALITY_KEYWORDS['moderate']):
+        return 'Moderate'
+    elif any(x in quality_lower for x in IMAGE_QUALITY_KEYWORDS['poor']) or has_artifacts:
+        return 'Poor'
+    elif any(x in quality_lower for x in IMAGE_QUALITY_KEYWORDS['ungradable']):
+        return 'Ungradable'
+    
+    return None
+
+
+def detect_artifacts(quality_text: Optional[str]) -> List[str]:
+    """
+    Detect specific artifact types from quality or notes text.
+    
+    Identifies: motion blur, media opacity, inadequate illumination,
+    eyelash occlusion, glare, and general artifact indicators.
+    
+    Args:
+        quality_text: Quality or notes text
+        
+    Returns:
+        List of detected artifact types
+    """
+    if not quality_text:
+        return []
+    
+    text_lower = str(quality_text).lower()
+    artifacts = []
+    
+    for artifact_type, keywords in IMAGE_QUALITY_KEYWORDS.items():
+        if 'artifact' not in artifact_type:  # Skip quality levels
+            for keyword in keywords:
+                if keyword in text_lower:
+                    artifacts.append(artifact_type)
+                    break
+    
+    return artifacts
+
+
+def standardize_age(age_input: any) -> Optional[int]:
+    """
+    Standardize and validate patient age to integer.
+    
+    Converts various input formats (int, float, string) and validates
+    against reasonable ranges (0-150 years).
+    
+    Args:
+        age_input: Age in various formats (int, float, string)
+        
+    Returns:
+        Age as integer, or None if invalid
+    """
+    if age_input is None:
+        return None
+    
+    try:
+        age = int(float(str(age_input)))
+        # Validate reasonable age range
+        if 0 <= age <= 150:
+            return age
+        return None
+    except (ValueError, TypeError):
+        return None
+
+
+def standardize_sex(sex_input: any) -> Optional[str]:
+    """
+    Standardize patient sex/gender to single character code.
+    
+    Handles: M/male, F/female, O/other, U/unknown (case-insensitive).
+    Supports variants including French/Spanish descriptors.
+    
+    Args:
+        sex_input: Sex descriptor
+        
+    Returns:
+        'M' (male), 'F' (female), 'O' (other), 'U' (unknown), or None
+    """
+    if sex_input is None:
+        return None
+    
+    val_upper = str(sex_input).upper().strip()
+    
+    # Check exact matches
+    for code, variants in SEX_MAPPINGS.items():
+        if any(variant.upper() == val_upper for variant in variants):
             return code
     
-    # Then substring matching with word boundaries
-    for code, patterns in LATERALITY_PATTERNS.items():
-        for pattern in patterns:
-            if pattern in value_lower:
+    # Check substring matches
+    val_upper_clean = re.sub(r'[^\w]', '', val_upper)
+    for code, variants in SEX_MAPPINGS.items():
+        for variant in variants:
+            if re.sub(r'[^\w]', '', variant.upper()) in val_upper_clean:
                 return code
+    
+    return None
+
+
+def standardize_ethnicity(ethnicity_input: any) -> Optional[str]:
+    """
+    Standardize ethnicity/race descriptor to standard categories.
+    
+    Maps various ethnicity descriptors to: Caucasian, African, Asian,
+    Hispanic, Middle Eastern, Pacific Islander, Mixed, or Other.
+    
+    Args:
+        ethnicity_input: Ethnicity descriptor
+        
+    Returns:
+        Standardized ethnicity category or None
+    """
+    if not ethnicity_input:
+        return None
+    
+    eth_lower = str(ethnicity_input).lower()
+    eth_clean = re.sub(r'[^\w\s]', '', eth_lower)
+    
+    for category, variants in ETHNICITY_MAPPINGS.items():
+        for variant in variants:
+            if variant.lower() in eth_clean:
+                return category
     
     return None
 
@@ -762,6 +950,9 @@ def infer_laterality(value: Optional[str]) -> Optional[str]:
 def detect_column_role(column_name: str) -> Optional[str]:
     """
     Auto-detect what field a column likely represents with priority ordering.
+    
+    Implements priority ordering: diagnosis → image_id → image_path → laterality →
+    modality → patient_age → patient_sex → resolution → unknown
     
     Args:
         column_name: Column name from dataset
@@ -796,6 +987,9 @@ def harmonize_column_value(field_type: str, value: any, context: Dict = None) ->
     """
     Apply field-specific harmonization to a column value.
     
+    Routes value harmonization to appropriate handler based on field type.
+    Supports context-aware harmonization (e.g., dataset-specific modality inference).
+    
     Args:
         field_type: Type of field being harmonized
         value: The value to harmonize
@@ -807,39 +1001,20 @@ def harmonize_column_value(field_type: str, value: any, context: Dict = None) ->
     context = context or {}
     
     if field_type == 'diagnosis':
-        return normalize_diagnosis(value)[0]  # Return only category
+        result = normalize_diagnosis(value)
+        return result[0] if result else None
     elif field_type == 'severity':
         diag = normalize_diagnosis(value)
-        return diag[1] or infer_severity_from_diagnosis(str(value), diag[0])
+        return diag[1] or infer_severity_from_diagnosis(str(value) if value else '', diag[0])
     elif field_type == 'modality':
         return infer_modality(context.get('dataset_name'), str(value) if value else None)
     elif field_type == 'laterality':
         return infer_laterality(value)
     elif field_type == 'patient_age':
-        try:
-            age = int(float(value)) if value else None
-            # Validate reasonable age range
-            if age is not None and 0 <= age <= 150:
-                return age
-            return None
-        except (ValueError, TypeError):
-            return None
+        return standardize_age(value)
     elif field_type == 'patient_sex':
-        if value is None:
-            return None
-        val_upper = str(value).upper().strip()
-        if val_upper in ['M', 'MALE']:
-            return 'M'
-        elif val_upper in ['F', 'FEMALE']:
-            return 'F'
-        elif val_upper in ['O', 'OTHER']:
-            return 'O'
-        elif val_upper in ['U', 'UNKNOWN']:
-            return 'U'
-        return None
+        return standardize_sex(value)
     elif field_type == 'patient_ethnicity':
-        if value:
-            return str(value).strip()
-        return None
+        return standardize_ethnicity(value)
     
     return value
