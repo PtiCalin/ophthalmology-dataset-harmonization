@@ -243,4 +243,25 @@ MIT License - See LICENSE file
 
 ---
 
+## Kaggle API Setup
+
+To use the Kaggle API in this project:
+1. Run `setup_kaggle_api.ps1` in PowerShell to set your API token for the session.
+2. Install the Kaggle Python package: `pip install kaggle`
+3. Use the CLI or Python API as needed.
+
+Example (PowerShell):
+```powershell
+.\setup_kaggle_api.ps1
+kaggle competitions list
+```
+
+Example (Python):
+```python
+import os
+api_token = os.getenv("KAGGLE_API_TOKEN")
+```
+
+---
+
 **Questions?** See SCHEMA.md for field details, RULES.md for inference logic, or CODEBOOK.md for enum values.

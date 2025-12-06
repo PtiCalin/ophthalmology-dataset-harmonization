@@ -294,3 +294,15 @@ mv SCHEMA_REFERENCE.md docs/archive/
 - ✅ Simpler to maintain
 
 ---
+
+## API Access Documentation
+
+### Kaggle API
+- API Key: Managed via environment variable `KAGGLE_API_TOKEN`.
+- Setup: Run `setup_kaggle_api.ps1` in PowerShell to set the token for your session.
+- Python Access:
+  ```python
+  import os
+  api_token = os.getenv("KAGGLE_API_TOKEN")
+  ```
+- CLI Access: After running the setup script, use Kaggle CLI commands (e.g., `kaggle competitions list`).
