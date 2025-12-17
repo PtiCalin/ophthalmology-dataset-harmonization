@@ -6,7 +6,7 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 
 ---
 
-## New Streamlined Structure (5 Files)
+## Project Structure (5 Files)
 
 ### 1. **README.md** (3 KB)
 **Purpose:** Project overview, quick start, architecture reference
@@ -18,7 +18,7 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 - Architecture overview & key classes
 - Schema overview (top-level + nested objects)
 - Supported features (modalities, diseases, tests)
-- Performance metrics
+- Performance metric
 - Requirements & next steps
 
 **Replaces:** README.md + PROJECT_STRUCTURE.md + QUICK_START.md
