@@ -74,6 +74,92 @@ Add the dataset to the datasources list below and update any relevant configurat
 
 ### Documentation Pending Datasets
 
+- **Refuge2 And Refuge2Cross Dataset** (`refuge2-and-refuge2cross-dataset/`)
+  - Ophthalmology dataset from ferencjuhsz
+  - Status: Documentation auto-generated, manual review pending
+
+- **Retinal Disease Detection** (`retinal-disease-detection/`)
+  - Ophthalmology dataset from mohamedabdalkader
+  - Status: Documentation auto-generated, manual review pending
+
+- **Fundus Images** (`fundus-images/`)
+  - Ophthalmology dataset from arjunbhushan005
+  - Status: Documentation auto-generated, manual review pending
+
+- **Retinal Colorized Oct Images** (`retinal-colorized-oct-images/`)
+  - Ophthalmology dataset from shuvokumarbasak2030
+  - Status: Documentation auto-generated, manual review pending
+
+- **Macular Degeneration Disease Dataset** (`macular-degeneration-disease-dataset/`)
+  - Ophthalmology dataset from orvile
+  - Status: Documentation auto-generated, manual review pending
+
+- **Octdl Optical Coherence Tomography Dataset** (`octdl-optical-coherence-tomography-dataset/`)
+  - Ophthalmology dataset from orvile
+  - Status: Documentation auto-generated, manual review pending
+
+- **Fundus Aptosddridirdeyepacsmessidor** (`fundus-aptosddridirdeyepacsmessidor/`)
+  - Ophthalmology dataset from sehastrajits
+  - Status: Documentation auto-generated, manual review pending
+
+- **Denoising** (`denoising/`)
+  - Ophthalmology dataset from stiflerxd
+  - Status: Documentation auto-generated, manual review pending
+
+- **Diabetic Retinopathy Detection Classification Data** (`diabetic-retinopathy-detection-classification-data/`)
+  - Ophthalmology dataset from pritpal2873
+  - Status: Documentation auto-generated, manual review pending
+
+- **Octdl Retinal Oct Images Dataset** (`octdl-retinal-oct-images-dataset/`)
+  - Ophthalmology dataset from shakilrana
+  - Status: Documentation auto-generated, manual review pending
+
+- **Cataract Classification Dataset In Ds** (`cataract-classification-dataset-in-ds/`)
+  - Ophthalmology dataset from sheemazain
+  - Status: Documentation auto-generated, manual review pending
+
+- **Oct2017Uniquedataset** (`oct2017uniquedataset/`)
+  - Ophthalmology dataset from rahulkumar99
+  - Status: Documentation auto-generated, manual review pending
+
+- **Retina Blood Vessel** (`retina-blood-vessel/`)
+  - Ophthalmology dataset from abdallahwagih
+  - Status: Documentation auto-generated, manual review pending
+
+- **Cornea In Diabetes** (`cornea-in-diabetes/`)
+  - Ophthalmology dataset from drbasanthkb
+  - Status: Documentation auto-generated, manual review pending
+
+- **Intraretinal Cystoid Fluid** (`intraretinal-cystoid-fluid/`)
+  - Ophthalmology dataset from zeeshanahmed13
+  - Status: Documentation auto-generated, manual review pending
+
+- **Fundus Image Registration** (`fundus-image-registration/`)
+  - Ophthalmology dataset from andrewmvd
+  - Status: Documentation auto-generated, manual review pending
+
+- **Messidor2 Dr Grades** (`messidor2-dr-grades/`)
+  - Ophthalmology dataset from google-brain
+  - Status: Documentation auto-generated, manual review pending
+
+- **Kermany2018** (`kermany2018/`)
+  - Ophthalmology dataset from paultimothymooney
+  - Status: Documentation auto-generated, manual review pending
+
+- **Retinal Disease Classification** (`retinal-disease-classification/`)
+  - Ophthalmology dataset from andrewmvd
+  - Status: Documentation auto-generated, manual review pending
+
+- **Retina** (`retina/`)
+  - Ophthalmology dataset from ahtcmstp
+  - Status: Documentation auto-generated, manual review pending
+
+- **Diabetic Retinopathy 224X224 Gaussian Filtered** (`diabetic-retinopathy-224x224-gaussian-filtered/`)
+  - Ophthalmology dataset from sovitrath
+  - Status: Documentation auto-generated, manual review pending
+
+
+
 - **Retinal Images for Diabetic Retinopathy** (`retinal-images-for-diabetic-retinopathy/`)
   - Focused DR detection and grading dataset
   - Status: Documentation pending
