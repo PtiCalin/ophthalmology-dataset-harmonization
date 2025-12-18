@@ -4,6 +4,26 @@ Data dictionary and enumeration reference for all standardized values.
 
 ---
 
+## Design Principles
+
+### Standardization Rationale
+
+**Clinical Standards Alignment:** Values based on established medical classifications (SNOMED-CT, ICD-10, ICDR scales).
+
+**Interoperability:** Consistent coding enables data exchange across systems and institutions.
+
+**Research Compatibility:** Standardized categories support meta-analysis and comparative studies.
+
+**Extensibility:** Framework allows addition of new values without breaking existing implementations.
+
+### Validation Approach
+
+**Enum Constraints:** Restricted to predefined values prevents data entry errors.
+
+**Case-Insensitive Matching:** Accommodates varied input formats while ensuring consistency.
+
+**Alias Support:** Multiple representations (abbreviations, translations) increase compatibility.
+
 ## Modality (12 Values)
 
 | Code | Name | Description | Example Modalities |
@@ -21,6 +41,8 @@ Data dictionary and enumeration reference for all standardized values.
 | Visual Field | Perimetry | Visual testing | Automated, threshold |
 | Unknown | Unknown | Unidentified | Default |
 
+**Rationale:** Comprehensive coverage of ophthalmology imaging modalities used in clinical practice and research.
+
 ---
 
 ## Laterality (3 Values)
@@ -32,8 +54,11 @@ Data dictionary and enumeration reference for all standardized values.
 | OU | Both Eyes | both, bilateral | les deux | ambos | ou, oculus uterque |
 
 **Filename Patterns:**
+
 - OD: `_r.`, `-r-`, `_od`, `-od`, `_right`, `-right`
 - OS: `_l.`, `-l-`, `_os`, `-os`, `_left`, `-left`
+
+**Rationale:** Multi-language support enables processing of international datasets. Filename pattern recognition handles automated data ingestion from various sources.
 
 ---
 
@@ -48,6 +73,8 @@ Data dictionary and enumeration reference for all standardized values.
 | Cataract | Cataract | H25-H26 | 5-level (by type) |
 | Glaucoma | Glaucoma | H40 | 5-level (by stage) |
 | Glaucoma Suspect | Glaucoma suspect | H40.00 | None |
+
+**Rationale:** Categories based on clinical classifications with standardized coding systems. Severity scales derived from validated clinical guidelines and research standards.
 | Corneal Disease | Corneal disease | H16-H19 | 4-level |
 | Retinoblastoma | Retinoblastoma | C69 | 5-level (Murphree) |
 | Macular Edema | Macular edema (non-diabetic) | H35.81 | 4-level |
@@ -76,7 +103,8 @@ Data dictionary and enumeration reference for all standardized values.
 ## Severity Levels (6 Values)
 
 ### Generic Scale (Used by Multiple Conditions)
-```
+
+```txt
 None         - No disease present
 Mild         - Minimal or early changes
 Moderate     - Noticeable disease, functionally significant
@@ -86,7 +114,8 @@ Very Severe  - Terminal/worst-case scenario
 ```
 
 ### Diabetic Retinopathy (ICDR Scale) [International Standard]
-```
+
+```txt
 0: No DR                   - No disease detected
 1: Mild NPDR              - Microaneurysms only or hemorrhages only
 2: Moderate NPDR          - Microaneurysms + hemorrhages + hard exudates
@@ -95,7 +124,8 @@ Very Severe  - Terminal/worst-case scenario
 ```
 
 ### AMD (3-Level)
-```
+
+```txt
 0: None           - No macular disease
 1: Early          - Small drusen, pigment changes
 2: Intermediate   - Intermediate drusen or geographic atrophy
@@ -103,7 +133,8 @@ Very Severe  - Terminal/worst-case scenario
 ```
 
 ### Cataract (5-Level by Density)
-```
+
+```txt
 0: None       - No lens opacity
 1: Mild       - Immature, minimal opacity
 2: Moderate   - Some vision impact
@@ -112,7 +143,8 @@ Very Severe  - Terminal/worst-case scenario
 ```
 
 ### Glaucoma (5-Level by Stage)
-```
+
+```txt
 0: None       - No glaucoma
 1: Mild       - Early structural/functional changes
 2: Moderate   - Mid-stage disease
@@ -121,7 +153,8 @@ Very Severe  - Terminal/worst-case scenario
 ```
 
 ### Hypertensive Retinopathy (4-Level, Keith-Wagener)
-```
+
+```txt
 0: None       - No hypertensive retinopathy
 1: Grade 1    - Arteriovenous nicking, vasoconstriction
 2: Grade 2    - Grade 1 + flame hemorrhages, cotton wool spots
@@ -206,6 +239,7 @@ Very Severe  - Terminal/worst-case scenario
 | Ungradable | Not focused | Inadequate | Extensive | Cannot assess |
 
 **Artifact Types:**
+
 - Motion blur
 - Media opacity (cataract, corneal)
 - Inadequate illumination
@@ -225,9 +259,11 @@ Very Severe  - Terminal/worst-case scenario
 | Child | 5-13 | School age |
 | Adolescent | 13-18 | Teenage |
 | Adult | 18-65 | Working age |
-| Elderly | 65-150 | Senior/geriatric |
+| Elderly | 65-130 | Senior/geriatric |
 
-**Valid range: 0-150 years**
+### Range validity
+
+**Valid range:** 0-130 years
 
 ---
 
@@ -249,6 +285,7 @@ Very Severe  - Terminal/worst-case scenario
 ## Clinical Finding Types (37 Values)
 
 ### Hemorrhage Subtypes (5)
+
 - Hemorrhages (general)
 - Microhemorrhages (tiny)
 - Dot-blot hemorrhages (intraretinal)
@@ -256,34 +293,40 @@ Very Severe  - Terminal/worst-case scenario
 - Preretinal hemorrhage (subhyaloid)
 
 ### Exudate Subtypes (3)
+
 - Hard exudates (lipid, yellow)
 - Soft exudates (cotton wool, white spots)
 - Exudates (general)
 
 ### Microstructure (3)
+
 - Microaneurysms
 - Microaneurysm clusters
 - Dot-blot lesions
 
 ### Edema & Fluid (4)
+
 - Macular edema
 - Retinal thickening
 - Serous detachment
 - Cystoid cysts
 
 ### Neovascularization (4)
+
 - Neovascularization (general)
 - Neovascular disc (NVD)
 - Choroidal neovascularization (CNV)
 - Retinal neovascularization
 
 ### Vascular Changes (4)
+
 - Vessel tortuosity
 - Vessel narrowing
 - Vessel beading
 - Arteriovenous nicking
 
 ### Retinal Changes (7)
+
 - Cotton wool spots
 - Retinal folds
 - Hard drusen
@@ -293,12 +336,14 @@ Very Severe  - Terminal/worst-case scenario
 - Retinal thinning
 
 ### Optic Nerve (4)
+
 - Optic disc pallor
 - Optic disc cupping
 - Optic nerve swelling
 - Large cup-disc ratio
 
 ### Other (6)
+
 - Vitreous hemorrhage
 - Subretinal hemorrhage
 - Retinal detachment

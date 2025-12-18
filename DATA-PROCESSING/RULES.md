@@ -7,6 +7,7 @@ Complete documentation of diagnosis mapping, severity grading, modality inferenc
 ## Overview
 
 The `src/rules.py` module provides comprehensive harmonization rules for:
+
 - **269+ diagnosis keywords** → 28 standardized categories + severity
 - **8+ severity grading systems** (ICDR for DR, stages for AMD, etc.)
 - **150+ modality patterns** across 12 imaging types
@@ -15,26 +16,56 @@ The `src/rules.py` module provides comprehensive harmonization rules for:
 - **Image quality assessment** (5 levels)
 - **Patient demographic standardization**
 
+## Methodological Rationale
+
+### Confidence Scoring
+
+**Keyword specificity:** Exact matches receive higher confidence than partial matches.
+
+**Context validation:** Cross-references with other fields (e.g., clinical findings) to validate diagnosis.
+
+**Severity consistency:** Ensures severity levels align with established clinical scales.
+
+### Iterative Development
+
+**Dataset-driven expansion:** Rules developed through analysis of 12+ ophthalmology datasets.
+
+**Clinical validation:** Severity scales based on established standards (ICDR, AREDS, etc.).
+
+**Extensibility:** Modular design allows addition of new keywords and categories without refactoring.
+
 ---
 
 ## Diagnosis Mapping (269+ Keywords)
 
-Maps raw diagnosis text to standardized (category, severity) tuples.
+Maps raw diagnosis text to standardized (category, severity) tuples using pattern matching and clinical standards.
+
+### Implementation Approach
+
+**Dictionary-based mapping:** Pre-defined keyword dictionaries enable fast lookups and maintainability.
+
+**Severity integration:** Automatic severity extraction from diagnosis text using established clinical scales.
+
+**Multiple diagnosis support:** Handles complex cases with primary and secondary diagnoses.
 
 ### Diabetic Retinopathy (36 keywords)
+
 ```python
 'diabetic retinopathy' → ('Diabetic Retinopathy', None)
 'dr' → ('Diabetic Retinopathy', None)
 
-# Severity (ICDR Scale)
-'mild npdr' → ('Diabetic Retinopathy', 'Mild')
+# Severity (ICDR Scale - International Clinical Diabetic Retinopathy Disease Severity Scale)
+'mild npdr' → ('Diabetic Retinopathy', 'Mild')      # Non-proliferative
 'moderate npdr' → ('Diabetic Retinopathy', 'Moderate')
 'severe npdr' → ('Diabetic Retinopathy', 'Severe')
 'proliferative dr' → ('Diabetic Retinopathy', 'Proliferative')
 'pdr' → ('Diabetic Retinopathy', 'Proliferative')
 ```
 
+**Rationale:** ICDR scale is the international standard for diabetic retinopathy severity assessment, validated across clinical trials and practice.
+
 ### Diabetic Macular Edema (10+ keywords)
+
 ```python
 'diabetic macular edema' → ('Diabetic Macular Edema', None)
 'dme' → ('Diabetic Macular Edema', None)
@@ -42,6 +73,7 @@ Maps raw diagnosis text to standardized (category, severity) tuples.
 ```
 
 ### AMD (36 keywords)
+
 ```python
 'age-related macular degeneration' → ('Age-Related Macular Degeneration', None)
 'amd' → ('Age-Related Macular Degeneration', None)
@@ -54,6 +86,7 @@ Maps raw diagnosis text to standardized (category, severity) tuples.
 ```
 
 ### Cataract (50+ keywords)
+
 ```python
 'cataract' → ('Cataract', None)
 
@@ -69,6 +102,7 @@ Maps raw diagnosis text to standardized (category, severity) tuples.
 ```
 
 ### Glaucoma (40+ keywords)
+
 ```python
 'glaucoma' → ('Glaucoma', None)
 'open angle glaucoma' → ('Glaucoma', None)
@@ -78,6 +112,7 @@ Maps raw diagnosis text to standardized (category, severity) tuples.
 ```
 
 ### Corneal Disease (40+ keywords)
+
 ```python
 'corneal disease' → ('Corneal Disease', None)
 'corneal scar' → ('Corneal Disease', None)
@@ -87,6 +122,7 @@ Maps raw diagnosis text to standardized (category, severity) tuples.
 ```
 
 ### Vascular Occlusions (20+ keywords)
+
 ```python
 'central retinal artery occlusion' → ('Vascular Occlusion', None)
 'crao' → ('Vascular Occlusion', None)
@@ -96,6 +132,7 @@ Maps raw diagnosis text to standardized (category, severity) tuples.
 ```
 
 ### Retinal Detachment (15+ keywords)
+
 ```python
 'retinal detachment' → ('Retinal Detachment', None)
 'rhegmatogenous' → ('Retinal Detachment', None)
@@ -105,6 +142,7 @@ Maps raw diagnosis text to standardized (category, severity) tuples.
 ```
 
 ### Plus 14+ More Categories
+
 - Myopia, Hyperopia, Astigmatism, Presbyopia
 - Macular Edema (non-diabetic)
 - Drusen
@@ -126,6 +164,7 @@ Maps raw diagnosis text to standardized (category, severity) tuples.
 Specialized severity scales for each condition.
 
 ### Diabetic Retinopathy (ICDR)
+
 ```python
 0: 'None'
 1: 'Mild'      # Mild NPDR
@@ -135,6 +174,7 @@ Specialized severity scales for each condition.
 ```
 
 ### AMD
+
 ```python
 0: 'None'
 1: 'Early'
@@ -143,6 +183,7 @@ Specialized severity scales for each condition.
 ```
 
 ### Cataract
+
 ```python
 0: 'None'
 1: 'Mild'
@@ -152,6 +193,7 @@ Specialized severity scales for each condition.
 ```
 
 ### Glaucoma
+
 ```python
 0: 'None'
 1: 'Mild'
@@ -161,6 +203,7 @@ Specialized severity scales for each condition.
 ```
 
 ### Corneal Disease
+
 ```python
 0: 'None'
 1: 'Mild'
@@ -169,6 +212,7 @@ Specialized severity scales for each condition.
 ```
 
 ### Hypertensive Retinopathy
+
 ```python
 0: 'None'
 1: 'Grade 1'
@@ -178,6 +222,7 @@ Specialized severity scales for each condition.
 ```
 
 ### Retinal Detachment
+
 ```python
 0: 'None'
 1: 'Macula-on'
@@ -187,6 +232,7 @@ Specialized severity scales for each condition.
 ```
 
 ### Diabetic Macular Edema
+
 ```python
 0: 'None'
 1: 'Mild'
@@ -201,44 +247,53 @@ Specialized severity scales for each condition.
 Auto-detects imaging type from dataset name or image description.
 
 ### Fundus Camera
+
 **30+ patterns:**
 fundus, color fundus, cfp, optos, widefield, messidor, eyepacs, aptos, refuge, color fundus photograph, digital fundus, fundus image, fundus photo, disc, macula view, macular view, posterior pole, peripheral retina
 
 **Example:**
+
 ```python
 infer_modality("Messidor", None) → "Fundus"
 infer_modality("color_fundus_photo", None) → "Fundus"
 ```
 
 ### OCT
+
 **25+ patterns:**
 oct, optical coherence, spectral domain, sd-oct, sdoct, time domain, td-oct, swept source, ss-oct, ssoct, structural, cross section, b-scan, volumetric, 3d, volume, oct scan, oct imaging, macular oct, optic disc oct, anterior segment oct, as-oct
 
 **Example:**
+
 ```python
 infer_modality("OCT_scan", None) → "OCT"
 infer_modality("spectral domain OCT", None) → "OCT"
 ```
 
 ### OCTA (OCT Angiography)
+
 **15+ patterns:**
 octa, oct angiography, oct angio, vascular imaging, capillary network, vessel density
 
 **Example:**
+
 ```python
 infer_modality("OCTA", None) → "OCTA"
 infer_modality("oct angiography", None) → "OCTA"
 ```
 
 ### Slit-Lamp
+
 **20+ patterns:**
 slit, slit-lamp, slit lamp, anterior, anterior segment, anterior chamber, lens, cornea, iris, angle, goniosc, biomicroscopy, slit lamp photography, anterior segment imaging
 
 ### Fluorescein Angiography
+
 **15+ patterns:**
 fa, fag, fluorescein, angiography, fa imaging, icg, indocyanine, angiogram, fundus angiography, retinal angiography, fluorescein angiogram
 
 ### Plus 7 More Modalities
+
 - Fundus Autofluorescence (FAF)
 - Infrared Reflectance
 - Ultrasound (A/B-scan)
@@ -254,6 +309,7 @@ fa, fag, fluorescein, angiography, fa imaging, icg, indocyanine, angiogram, fund
 Infers eye side from various input formats.
 
 ### English
+
 **Right (OD):**
 right, od, oculus dexter, re, r, r., right eye, r eye, o.d., odex
 
@@ -264,6 +320,7 @@ left, os, oculus sinister, le, l, l., left eye, l eye, o.s., osex
 both, ou, oculus uterque, bilateral, binocular, both eyes, combined
 
 ### Filename Patterns
+
 ```python
 infer_laterality("image_r.jpg") → "OD"
 infer_laterality("image_l.jpg") → "OS"
@@ -272,12 +329,14 @@ infer_laterality("scan-os-final") → "OS"
 ```
 
 ### French
+
 ```python
 infer_laterality("droit") → "OD"      # Right
 infer_laterality("gauche") → "OS"     # Left
 ```
 
 ### Spanish
+
 ```python
 infer_laterality("derecha") → "OD"    # Right
 infer_laterality("izquierda") → "OS"  # Left
@@ -290,6 +349,7 @@ infer_laterality("izquierda") → "OS"  # Left
 Auto-detects clinical signs from diagnosis or notes text.
 
 ### Hemorrhages (5 types)
+
 - hemorrhages
 - microhemorrhages
 - dot_blot_hemorrhages
@@ -297,29 +357,34 @@ Auto-detects clinical signs from diagnosis or notes text.
 - preretinal_hemorrhage
 
 ### Exudates (3 types)
+
 - hard_exudates
 - soft_exudates
 - exudates
 
 ### Edema & Fluid (4 types)
+
 - macular_edema
 - retinal_thickening
 - serous_detachment
 - cysts
 
 ### Neovascularization (4 types)
+
 - neovascularization
 - neovascular_disc
 - choroidal_neovascularization
 - retinal_neovascularization
 
 ### Vessel Changes (4 types)
+
 - vessel_tortuosity
 - vessel_narrowing
 - vessel_beading
 - arteriovenous_nicking
 
 ### Retinal Changes (7 types)
+
 - cotton_wool_spots
 - retinal_folds
 - hard_drusen
@@ -329,12 +394,14 @@ Auto-detects clinical signs from diagnosis or notes text.
 - retinal_thinning
 
 ### Optic Nerve (4 types)
+
 - optic_disc_pallor
 - optic_disc_cupping
 - optic_nerve_swelling
 - large_cup_disc_ratio
 
 ### Other (6 types)
+
 - vitreous_hemorrhage
 - subretinal_hemorrhage
 - retinal_detachment
@@ -343,6 +410,7 @@ Auto-detects clinical signs from diagnosis or notes text.
 - myelin_sheath
 
 **Example:**
+
 ```python
 findings = find_clinical_findings("Hemorrhage, exudates, and edema visible")
 # Result: ['hemorrhages', 'hard_exudates', 'macular_edema']
@@ -355,6 +423,7 @@ findings = find_clinical_findings("Hemorrhage, exudates, and edema visible")
 Maps quality descriptors to standardized levels.
 
 ### Quality Levels
+
 ```python
 'Excellent'   # Perfect focus, clear view
 'Good'        # Very good, adequate for analysis
@@ -364,18 +433,21 @@ Maps quality descriptors to standardized levels.
 ```
 
 **Example:**
+
 ```python
 assess_image_quality("Excellent quality, perfect focus") → "Excellent"
 assess_image_quality("Poor quality with motion blur") → "Poor"
 ```
 
 ### Artifact Detection
+
 ```python
 detect_artifacts("Motion blur and media opacity present")
 # Result: ['motion_artifact', 'media_opacity']
 ```
 
 **Artifact Types:**
+
 - motion_artifact
 - media_opacity
 - inadequate_illumination
@@ -390,6 +462,7 @@ detect_artifacts("Motion blur and media opacity present")
 Standardizes age, sex, and ethnicity fields.
 
 ### Age Normalization
+
 ```python
 standardize_age(45) → 45
 standardize_age("67.5") → 67
@@ -400,6 +473,7 @@ standardize_age(None) → None
 ```
 
 ### Sex Standardization
+
 ```python
 standardize_sex('M') → 'M'
 standardize_sex('male') → 'M'
@@ -410,6 +484,7 @@ standardize_sex('U') → 'U'      # Unknown
 ```
 
 ### Ethnicity Standardization
+
 ```python
 standardize_ethnicity('Caucasian') → 'Caucasian'
 standardize_ethnicity('White') → 'Caucasian'
@@ -426,6 +501,7 @@ standardize_ethnicity('Hispanic') → 'Hispanic'
 ## Core Functions
 
 ### normalize_diagnosis(diagnosis_text)
+
 ```python
 Returns: (category, severity) tuple
 Example: normalize_diagnosis("moderate npdr") 
@@ -433,6 +509,7 @@ Example: normalize_diagnosis("moderate npdr")
 ```
 
 ### infer_modality(dataset_name, image_description)
+
 ```python
 Returns: Modality name or None
 Example: infer_modality("Messidor", "fundus_image.jpg")
@@ -440,6 +517,7 @@ Example: infer_modality("Messidor", "fundus_image.jpg")
 ```
 
 ### infer_laterality(value)
+
 ```python
 Returns: 'OD', 'OS', 'OU', or None
 Example: infer_laterality("right eye")
@@ -447,6 +525,7 @@ Example: infer_laterality("right eye")
 ```
 
 ### infer_severity_from_diagnosis(diagnosis_text, diagnosed_condition)
+
 ```python
 Returns: Severity level or None
 Example: infer_severity_from_diagnosis("severe glaucoma", "Glaucoma")
@@ -454,6 +533,7 @@ Example: infer_severity_from_diagnosis("severe glaucoma", "Glaucoma")
 ```
 
 ### find_clinical_findings(text)
+
 ```python
 Returns: List of finding types
 Example: find_clinical_findings("hemorrhage and edema")
@@ -461,6 +541,7 @@ Example: find_clinical_findings("hemorrhage and edema")
 ```
 
 ### assess_image_quality(quality_text, has_artifacts)
+
 ```python
 Returns: Quality level ('Excellent', 'Good', 'Moderate', 'Poor', 'Ungradable')
 Example: assess_image_quality("excellent quality")
@@ -468,6 +549,7 @@ Example: assess_image_quality("excellent quality")
 ```
 
 ### detect_column_role(column_name)
+
 ```python
 Returns: Field type ('diagnosis', 'modality', 'laterality', etc.) or None
 Priority: diagnosis → image_id → image_path → laterality → 
@@ -475,6 +557,7 @@ Priority: diagnosis → image_id → image_path → laterality →
 ```
 
 ### harmonize_column_value(field_type, value, context)
+
 ```python
 Returns: Harmonized value
 Example: harmonize_column_value('diagnosis', 'dr', {})
@@ -485,6 +568,12 @@ Example: harmonize_column_value('diagnosis', 'dr', {})
 
 ## Pattern Matching Strategy
 
+**Longest-first matching:** Prioritizes specific terms over general ones (e.g., "proliferative diabetic retinopathy" before "diabetic retinopathy") to maximize accuracy.
+
+**Case-insensitive processing:** Accommodates varied capitalization in source data while maintaining standardization.
+
+**Multi-language support:** Enables processing of international datasets with consistent output.
+
 All inference uses **longest-match-first** strategy for robustness:
 
 1. Normalize input (lowercase, remove punctuation)
@@ -493,6 +582,7 @@ All inference uses **longest-match-first** strategy for robustness:
 4. Return first match found
 
 **Example:**
+
 ```python
 # Text: "oct angiography"
 # Patterns sorted: ["oct angiography", "angiography", "octa", "oct"]
@@ -506,19 +596,21 @@ All inference uses **longest-match-first** strategy for robustness:
 All inferences include optional confidence scoring.
 
 **High confidence (>0.85):**
+
 - Exact keyword match
 - Specific pattern match
 - Standard codes (ICD-10, ICDR)
 
 **Medium confidence (0.5-0.85):**
+
 - Partial string match
 - Inferred from context
 - Secondary pattern
 
 **Low confidence (<0.5):**
+
 - Ambiguous keywords
 - Fallback inference
 - Missing data
 
 ---
-

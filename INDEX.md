@@ -1,25 +1,41 @@
 # Documentation Index
 
-Your project documentation has been consolidated into **5 core files** totaling ~56 KB.
+Your project documentation has been consolidated into **6 core files** totaling ~70 KB across multiple directories.
 
 ---
 
 ## Quick Navigation
 
 ### 📖 **README.md**
-**Start here!** Project overview, quick start guide, and architecture.
+**Primary entry point** for project context, methodological approach, and technical implementation.
 
 **Includes:**
-- Project description & current status
-- Quick installation & running instructions
-- What the project does (overview of each component)
-- Architecture & key classes
-- Schema overview
-- Supported features (modalities, diseases)
-- Performance metrics
-- Next steps
+- Project context and author background
+- Methodological framework for data harmonization
+- Technical architecture and core components
+- Schema specification overview
+- Supported modalities and disease classifications
+- Validation and testing procedures
+- Performance characteristics
+- Research applications and extensions
 
-**Best for:** First-time users, developers, stakeholders
+**Best for:** Researchers, developers, and stakeholders seeking comprehensive project understanding
+
+---
+
+### 📋 **METHODOLOGY.md**
+**Theoretical foundations and methodological framework** for the harmonization approach.
+
+**Includes:**
+- Theoretical frameworks (FAIR principles, clinical standards, TDQM)
+- Detailed harmonization process architecture
+- Rule-based inference engine design
+- Quality assurance and validation strategies
+- Ethical and regulatory compliance
+- Performance optimization approaches
+- Testing and reproducibility standards
+
+**Best for:** Researchers, academics, and technical reviewers seeking methodological rigor
 
 ---
 
@@ -41,6 +57,8 @@ Your project documentation has been consolidated into **5 core files** totaling 
 
 **Best for:** Data engineers, schema users, field validation
 
+**Location:** `DATA-PROCESSING/SCHEMA.md`
+
 ---
 
 ### 📐 **RULES.md**
@@ -59,6 +77,8 @@ Your project documentation has been consolidated into **5 core files** totaling 
 - Validation confidence scoring
 
 **Best for:** Data harmonization, diagnosis mapping, field inference
+
+**Location:** `DATA-PROCESSING/RULES.md`
 
 ---
 
@@ -84,6 +104,8 @@ Your project documentation has been consolidated into **5 core files** totaling 
 - Validation ranges for all numeric fields
 
 **Best for:** Data validation, coding, field mapping, reference
+
+**Location:** `DATA-PROCESSING/CODEBOOK.md`
 
 ---
 
@@ -114,14 +136,15 @@ Your project documentation has been consolidated into **5 core files** totaling 
 
 ## File Information
 
-| File | Size | Lines | Focus |
-|------|------|-------|-------|
-| README.md | 6.8 KB | ~200 | Quick start & overview |
-| SCHEMA.md | 11.2 KB | ~350 | Field reference |
-| RULES.md | 12.7 KB | ~400 | Harmonization logic |
-| CODEBOOK.md | 12.7 KB | ~400 | Data dictionary |
-| UPDATES.md | 12.4 KB | ~400 | Release notes |
-| **Total** | **55.8 KB** | **~1,750** | **Complete reference** |
+| File | Size | Lines | Focus | Location |
+|------|------|-------|-------|----------|
+| README.md | 6.8 KB | ~200 | Quick start & overview | Root |
+| METHODOLOGY.md | 8.5 KB | ~280 | Theoretical framework | Root |
+| SCHEMA.md | 11.2 KB | ~350 | Field reference | DATA-PROCESSING/ |
+| RULES.md | 12.7 KB | ~400 | Harmonization logic | DATA-PROCESSING/ |
+| CODEBOOK.md | 12.7 KB | ~400 | Data dictionary | DATA-PROCESSING/ |
+| UPDATES.md | 12.4 KB | ~400 | Release notes | Root |
+| **Total** | **64.3 KB** | **~2,030** | **Complete reference** | **Multiple locations** |
 
 ---
 
@@ -129,33 +152,38 @@ Your project documentation has been consolidated into **5 core files** totaling 
 
 ### 👨‍💻 Software Developer
 1. README.md → Architecture section
-2. SCHEMA.md → Field definitions & examples
-3. RULES.md → Function signatures & logic
-4. CODEBOOK.md → As needed for enumerations
+2. METHODOLOGY.md → Theoretical foundations
+3. DATA-PROCESSING/SCHEMA.md → Field definitions & examples
+4. DATA-PROCESSING/RULES.md → Function signatures & logic
+5. DATA-PROCESSING/CODEBOOK.md → As needed for enumerations
 
 ### 📊 Data Analyst / Data Engineer
 1. README.md → Schema overview
-2. CODEBOOK.md → All enumerations & validation
-3. SCHEMA.md → Patient clinical data fields
-4. RULES.md → Diagnosis mapping & inference
+2. METHODOLOGY.md → Quality assurance frameworks
+3. DATA-PROCESSING/CODEBOOK.md → All enumerations & validation
+4. DATA-PROCESSING/SCHEMA.md → Patient clinical data fields
+5. DATA-PROCESSING/RULES.md → Diagnosis mapping & inference
 
 ### 🔬 Researcher / ML Engineer
-1. UPDATES.md → Project history & enhancement roadmap
-2. RULES.md → Diagnosis mapping (269+ keywords)
-3. SCHEMA.md → Feature engineering (clinical findings)
-4. README.md → Architecture & performance metrics
+1. METHODOLOGY.md → Theoretical frameworks & validation strategies
+2. UPDATES.md → Project history & enhancement roadmap
+3. DATA-PROCESSING/RULES.md → Diagnosis mapping (269+ keywords)
+4. DATA-PROCESSING/SCHEMA.md → Feature engineering (clinical findings)
+5. README.md → Architecture & performance metrics
 
 ### 📚 New User / Student
 1. README.md → Introduction (read carefully!)
-2. Follow architecture guide in README.md
-3. SCHEMA.md → Field by field exploration
-4. CODEBOOK.md → Reference for values
-5. RULES.md → Deep dive into harmonization
+2. METHODOLOGY.md → Understanding the approach
+3. Follow architecture guide in README.md
+4. DATA-PROCESSING/SCHEMA.md → Field by field exploration
+5. DATA-PROCESSING/CODEBOOK.md → Reference for values
+6. DATA-PROCESSING/RULES.md → Deep dive into harmonization
 
 ### 👨‍💼 Project Manager / Stakeholder
 1. README.md → Project description & status
-2. UPDATES.md → Current version & statistics
-3. UPDATES.md → Roadmap for planning
+2. METHODOLOGY.md → Methodological rigor & compliance
+3. UPDATES.md → Current version & statistics
+4. UPDATES.md → Roadmap for planning
 
 ---
 
@@ -190,6 +218,12 @@ Your project documentation has been consolidated into **5 core files** totaling 
 
 | Topic | File | Section |
 |-------|------|---------|
+| Theoretical frameworks | METHODOLOGY.md | Theoretical Frameworks |
+| Data quality management | METHODOLOGY.md | Data Quality Framework |
+| Harmonization process | METHODOLOGY.md | Harmonization Process Architecture |
+| Rule-based inference | METHODOLOGY.md | Rule-Based Inference Engine |
+| Validation strategies | METHODOLOGY.md | Quality Assurance and Validation |
+| Ethical compliance | METHODOLOGY.md | Ethical and Regulatory Compliance |
 | Field definitions | SCHEMA.md | Top-Level Columns / Nested Objects |
 | Enum values | CODEBOOK.md | Modality / Laterality / Diagnosis |
 | Severity grading | RULES.md / CODEBOOK.md | Severity Grading Systems |
@@ -225,11 +259,12 @@ Documentation was recently consolidated from **11 files → 5 files** (54% reduc
 - DELIVERY_SUMMARY.md
 - NOTEBOOK_GUIDE.md
 
-**Consolidated to 5 Files:**
+**Consolidated to 6 Files:**
 - README.md (quick start + architecture)
-- SCHEMA.md (complete field reference)
-- RULES.md (harmonization logic)
-- CODEBOOK.md (data dictionary)
+- METHODOLOGY.md (theoretical framework)
+- DATA-PROCESSING/SCHEMA.md (complete field reference)
+- DATA-PROCESSING/RULES.md (harmonization logic)
+- DATA-PROCESSING/CODEBOOK.md (data dictionary)
 - UPDATES.md (release notes + roadmap)
 
 See **CONSOLIDATION_SUMMARY.md** for detailed mapping.
@@ -241,26 +276,35 @@ See **CONSOLIDATION_SUMMARY.md** for detailed mapping.
 **Q: Where do I start?**  
 A: Read **README.md** first. It has quick start instructions and a project overview.
 
+**Q: What theoretical frameworks guide this work?**  
+A: See **METHODOLOGY.md** → Theoretical Frameworks section (FAIR principles, clinical standards, TDQM).
+
+**Q: How does the harmonization process work?**  
+A: See **METHODOLOGY.md** → Harmonization Process Architecture section.
+
+**Q: What quality assurance methods are used?**  
+A: See **METHODOLOGY.md** → Quality Assurance and Validation section.
+
 **Q: What fields are in the schema?**  
-A: See **SCHEMA.md** for complete field-by-field documentation with 122 total fields.
+A: See **DATA-PROCESSING/SCHEMA.md** for complete field-by-field documentation with 122 total fields.
 
 **Q: How does diagnosis mapping work?**  
-A: See **RULES.md** → Diagnosis Mapping section (269+ keywords to 28 categories).
+A: See **DATA-PROCESSING/RULES.md** → Diagnosis Mapping section (269+ keywords to 28 categories).
 
 **Q: What are the valid values for [field]?**  
-A: Check **CODEBOOK.md** for enumerations and validation ranges.
+A: Check **DATA-PROCESSING/CODEBOOK.md** for enumerations and validation ranges.
 
 **Q: What's been enhanced in v2.0?**  
 A: See **UPDATES.md** → Major Enhancements (Phase 2) section.
 
 **Q: How do I use a specific inference function?**  
-A: See **RULES.md** → Core Functions section.
+A: See **DATA-PROCESSING/RULES.md** → Core Functions section.
 
 **Q: What validation rules apply?**  
-A: See **SCHEMA.md** → Validation Rules section and **CODEBOOK.md** → Validation Ranges.
+A: See **DATA-PROCESSING/SCHEMA.md** → Validation Rules section and **DATA-PROCESSING/CODEBOOK.md** → Validation Ranges.
 
 **Q: How do I extend the rules?**  
-A: See **RULES.md** → Pattern Matching Strategy section.
+A: See **DATA-PROCESSING/RULES.md** → Pattern Matching Strategy section.
 
 ---
 
@@ -273,6 +317,7 @@ A: See **RULES.md** → Pattern Matching Strategy section.
 | RULES.md | 2.0 | Dec 2025 | ✅ Current |
 | CODEBOOK.md | 2.0 | Dec 2025 | ✅ Current |
 | UPDATES.md | 2.0 | Dec 2025 | ✅ Current |
+| METHODOLOGY.md | 1.0 | Dec 2025 | ✅ Current |
 
 ---
 
@@ -280,13 +325,18 @@ A: See **RULES.md** → Pattern Matching Strategy section.
 
 **For technical questions:**
 - See **README.md** → Architecture section
-- See **SCHEMA.md** → Complete reference
-- See **RULES.md** → Function documentation
+- See **DATA-PROCESSING/SCHEMA.md** → Complete reference
+- See **DATA-PROCESSING/RULES.md** → Function documentation
 
 **For data questions:**
-- See **CODEBOOK.md** → Data dictionary
-- See **SCHEMA.md** → Field definitions
-- See **RULES.md** → Inference logic
+- See **DATA-PROCESSING/CODEBOOK.md** → Data dictionary
+- See **DATA-PROCESSING/SCHEMA.md** → Field definitions
+- See **DATA-PROCESSING/RULES.md** → Inference logic
+
+**For methodological questions:**
+- See **METHODOLOGY.md** → Theoretical frameworks
+- See **METHODOLOGY.md** → Harmonization process architecture
+- See **METHODOLOGY.md** → Quality assurance strategies
 
 **For project questions:**
 - See **README.md** → Project overview

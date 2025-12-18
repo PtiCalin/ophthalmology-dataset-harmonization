@@ -1,7 +1,39 @@
 """
 Full harmonization orchestration pipeline.
 
-This module coordinates loading, harmonizing, and merging multiple datasets.
+THIS IS THE "CONDUCTOR" THAT BRINGS EVERYTHING TOGETHER:
+- Coordinates multiple datasets through the harmonization process
+- Manages the UniversalLoader for each dataset
+- Merges everything into one big, clean dataset
+- Handles export to analysis-ready formats
+
+WHY THIS EXISTS:
+- Real-world analysis often needs data from multiple sources
+- Each dataset has different formats and quality
+- Need consistent processing and quality control across all data
+- Want one command to harmonize everything
+
+HOW IT WORKS:
+1. Register each dataset with its loading function
+2. Run harmonization on each dataset individually
+3. Merge all results into a single DataFrame
+4. Export to Parquet/CSV for analysis
+
+EXAMPLE USAGE:
+```python
+pipeline = HarmonizationPipeline()
+
+# Register datasets
+pipeline.register_dataset("Messidor", load_messidor_data)
+pipeline.register_dataset("EyePACS", load_eyepacs_data)
+
+# Harmonize everything
+pipeline.run_harmonization()
+
+# Get results
+merged_df = pipeline.get_merged_dataframe()
+pipeline.export_results()
+```
 """
 
 from typing import Dict, List, Optional, Callable
@@ -20,28 +52,50 @@ logger = logging.getLogger(__name__)
 
 class HarmonizationPipeline:
     """
-    Orchestrates the full harmonization pipeline for multiple datasets.
-    
-    This class manages:
-    - Dataset registration and selection
-    - Loading and harmonization of each dataset
-    - Merging into a unified dataframe
-    - Exporting to standardized formats
+    THE MASTER COORDINATOR for multi-dataset harmonization.
+
+    WHAT IT DOES:
+    - Manages multiple datasets through the harmonization process
+    - Uses UniversalLoader for each dataset individually
+    - Merges all harmonized data into a single, unified DataFrame
+    - Provides export functionality for analysis-ready data
+
+    KEY FEATURES:
+    - Dataset registry: Register any number of datasets
+    - Parallel processing: Can process datasets independently
+    - Quality aggregation: Combines reports from all datasets
+    - Flexible export: Multiple formats (Parquet, CSV, etc.)
+    - Error resilience: Continues processing even if one dataset fails
+
+    PROCESSING FLOW:
+    1. Register datasets with their loading functions
+    2. For each dataset: load → harmonize → validate → store
+    3. Merge all harmonized datasets into one big DataFrame
+    4. Generate comprehensive quality and processing reports
+    5. Export to desired formats for downstream analysis
+
+    QUALITY ASSURANCE:
+    - Tracks processing statistics across all datasets
+    - Aggregates error reports and quality flags
+    - Validates merged schema consistency
+    - Provides detailed logging for troubleshooting
     """
-    
+
     def __init__(self, output_dir: str = None):
         """
-        Initialize the pipeline.
-        
+        Initialize the harmonization pipeline.
+
         Args:
             output_dir: Directory for output files (default: './output')
+                       Will be created if it doesn't exist
         """
         self.output_dir = Path(output_dir or './output')
         self.output_dir.mkdir(exist_ok=True)
-        
-        self.datasets_registry: Dict[str, Dict] = {}
-        self.harmonized_dfs: Dict[str, pd.DataFrame] = {}
-        self.merged_df: Optional[pd.DataFrame] = None
+
+        # INTERNAL STATE TRACKING
+        self.datasets_registry: Dict[str, Dict] = {}  # Registered datasets
+        self.harmonized_dfs: Dict[str, pd.DataFrame] = {}  # Processed results
+        self.merged_df: Optional[pd.DataFrame] = None  # Final merged result
     
     def register_dataset(
         self,

@@ -41,3 +41,8 @@ dev = [
     "flake8>=4.0.0",
     "mypy>=0.990",
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["testing"]
+pythonpath = ["DATA-PROCESSING"]
+addopts = "-v --tb=short"

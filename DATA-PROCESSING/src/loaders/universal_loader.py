@@ -1,8 +1,32 @@
 """
 Universal loader for heterogeneous ophthalmology datasets.
 
-This module provides a flexible loading interface with auto-detection,
-error handling, and quality validation for diverse data sources.
+THIS IS THE "SWISS ARMY KNIFE" OF DATA LOADING:
+- Takes messy CSV/Parquet files from different sources
+- Automatically figures out what each column contains
+- Applies harmonization rules to standardize everything
+- Outputs clean HarmonizedRecord objects
+
+WHY THIS EXISTS:
+- Ophthalmology datasets come in countless formats
+- Column names vary: "diagnosis", "dx", "condition", "label"
+- Data quality varies: missing values, inconsistent formats
+- Need one tool that can handle everything
+
+HOW IT WORKS:
+1. Load raw data (CSV, Parquet, etc.)
+2. Auto-detect what each column represents
+3. Apply rules to standardize values
+4. Create HarmonizedRecord objects
+5. Generate quality reports
+
+EXAMPLE USAGE:
+```python
+loader = UniversalLoader("My Dataset")
+df = pd.read_csv("messy_data.csv")
+harmonized_df = loader.load_and_harmonize(df)
+report = loader.get_load_report()  # See what happened
+```
 """
 
 from typing import Dict, List, Optional, Any, Tuple
@@ -31,23 +55,45 @@ class ColumnDetectionException(LoaderException):
 
 class UniversalLoader:
     """
-    Universal loader for ophthalmology datasets with robust error handling.
-    
-    Features:
-    - Automatic column detection with priority ordering
-    - Comprehensive harmonization to canonical schema
-    - Quality flag generation for data issues
-    - Flexible column mapping
-    - Detailed error reporting and logging
+    THE MAIN DATA LOADING ENGINE - handles any ophthalmology dataset.
+
+    WHAT IT DOES:
+    - Loads data from various formats (CSV, Parquet, DataFrame)
+    - Automatically detects column purposes using pattern matching
+    - Applies harmonization rules to standardize all values
+    - Creates quality flags for data issues
+    - Generates detailed processing reports
+
+    KEY FEATURES:
+    - Zero configuration: Works out-of-the-box with most datasets
+    - Robust error handling: Continues processing despite data quality issues
+    - Comprehensive logging: Tracks every decision and transformation
+    - Extensible: Can add custom column mappings for special cases
+
+    PROCESSING PIPELINE:
+    1. Load raw data into pandas DataFrame
+    2. Detect column roles (diagnosis, modality, laterality, etc.)
+    3. For each row: harmonize values using rules engine
+    4. Create HarmonizedRecord with standardized data
+    5. Collect quality metrics and error reports
+
+    QUALITY ASSURANCE:
+    - Validates required fields (image_id, dataset_source)
+    - Flags missing or invalid data
+    - Tracks transformation confidence scores
+    - Reports processing statistics
     """
-    
+
     def __init__(self, dataset_name: str, column_mapping: Dict[str, str] = None):
         """
-        Initialize the loader.
-        
+        Initialize the loader with dataset configuration.
+
         Args:
-            dataset_name: Name of the source dataset
+            dataset_name: Identifier for the source dataset (appears in all records)
             column_mapping: Optional explicit mapping of dataset columns to schema fields
+                           Format: {'dataset_column': 'schema_field'}
+                           Use when auto-detection fails or for custom datasets
+        """
         """
         self.dataset_name = dataset_name
         self.column_mapping = column_mapping or {}

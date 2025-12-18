@@ -25,7 +25,7 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 
 ---
 
-### 2. **SCHEMA.md** (12 KB)
+### 2. **DATA-PROCESSING/SCHEMA.md** (12 KB)
 **Purpose:** Complete field-by-field data structure reference
 
 **Contains:**
@@ -45,7 +45,7 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 
 ---
 
-### 3. **RULES.md** (14 KB)
+### 3. **DATA-PROCESSING/RULES.md** (14 KB)
 **Purpose:** Diagnosis mapping, inference logic, and harmonization rules
 
 **Contains:**
@@ -64,7 +64,7 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 
 ---
 
-### 4. **CODEBOOK.md** (10 KB)
+### 4. **DATA-PROCESSING/CODEBOOK.md** (10 KB)
 **Purpose:** Data dictionary and enumeration reference
 
 **Contains:**
@@ -124,11 +124,11 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 | README.md | 180 | → | README.md | Quick Start, Architecture |
 | PROJECT_STRUCTURE.md | 70 | → | README.md | Architecture |
 | QUICK_START.md | 300 | → | README.md | Quick Start, Next Steps |
-| SCHEMA_REFERENCE.md | 1000+ | → | SCHEMA.md | Complete Field Reference |
-| SCHEMA_STATISTICS.md | 400+ | → | SCHEMA.md + CODEBOOK.md | Fields & Enums |
+| SCHEMA_REFERENCE.md | 1000+ | → | DATA-PROCESSING/SCHEMA.md | Complete Field Reference |
+| SCHEMA_STATISTICS.md | 400+ | → | DATA-PROCESSING/SCHEMA.md + DATA-PROCESSING/CODEBOOK.md | Fields & Enums |
 | SCHEMA_ENHANCEMENT_COMPLETE.md | 300+ | → | UPDATES.md | Version 1.0 Enhancement |
 | ROBUST_SCHEMA_SUMMARY.md | 400+ | → | UPDATES.md | Enhancement Summary |
-| ENHANCEMENT_SUMMARY.md | 280+ | → | RULES.md | Rules Explanation |
+| ENHANCEMENT_SUMMARY.md | 280+ | → | DATA-PROCESSING/RULES.md | Rules Explanation |
 | ENHANCEMENTS_COMPLETED.md | 350+ | → | UPDATES.md | Enhancement Details |
 | DELIVERY_SUMMARY.md | 430+ | → | UPDATES.md | Project Statistics |
 | NOTEBOOK_GUIDE.md | 150+ | → | README.md | (Referenced) |
@@ -187,9 +187,9 @@ TOTAL:                          111.2 KB (11 files)
 ### After Consolidation
 ```
 README.md         3.2 KB
-SCHEMA.md        12.0 KB
-RULES.md         14.5 KB
-CODEBOOK.md       9.8 KB
+DATA-PROCESSING/SCHEMA.md        12.0 KB
+DATA-PROCESSING/RULES.md         14.5 KB
+DATA-PROCESSING/CODEBOOK.md       9.8 KB
 UPDATES.md       11.8 KB
 ────────────────────────────────────────
 TOTAL:           51.3 KB (5 files)
@@ -209,24 +209,24 @@ TOTAL:           51.3 KB (5 files)
 
 **👨‍💻 Developer / Engineer**
 → Start with README.md (Architecture section)
-→ Deep dive: SCHEMA.md (field reference)
-→ Reference: RULES.md (inference logic) + CODEBOOK.md (enums)
+→ Deep dive: DATA-PROCESSING/SCHEMA.md (field reference)
+→ Reference: DATA-PROCESSING/RULES.md (inference logic) + DATA-PROCESSING/CODEBOOK.md (enums)
 
 **📊 Data Analyst**
 → Start with README.md (Features section)
-→ Reference: CODEBOOK.md (all enumerations)
-→ Deep dive: SCHEMA.md (patient data fields)
+→ Reference: DATA-PROCESSING/CODEBOOK.md (all enumerations)
+→ Deep dive: DATA-PROCESSING/SCHEMA.md (patient data fields)
 
 **🔬 Researcher**
 → Start with UPDATES.md (Enhancement History)
-→ Deep dive: RULES.md (diagnosis mapping)
-→ Reference: CODEBOOK.md (disease definitions)
+→ Deep dive: DATA-PROCESSING/RULES.md (diagnosis mapping)
+→ Reference: DATA-PROCESSING/CODEBOOK.md (disease definitions)
 
 **🎓 Student / Learning**
 → Start with README.md (overview)
 → Follow: README.md (Architecture → Quick Start)
-→ Explore: SCHEMA.md (field by field)
-→ Apply: Example code in SCHEMA.md
+→ Explore: DATA-PROCESSING/SCHEMA.md (field by field)
+→ Apply: Example code in DATA-PROCESSING/SCHEMA.md
 
 ---
 
@@ -265,11 +265,13 @@ mv SCHEMA_REFERENCE.md docs/archive/
 ```
 
 ### Update References
+
 ✅ All cross-references updated  
 ✅ All links verified  
 ✅ All section numbers current  
 
 ### Keep New Structure
+
 - Use 5-file structure going forward
 - Add to existing files rather than creating new ones
 - Update UPDATES.md with changes
@@ -279,11 +281,12 @@ mv SCHEMA_REFERENCE.md docs/archive/
 
 ## Summary
 
-**Documentation has been successfully consolidated from 11 files to 5 core files:**
+**Documentation has been successfully consolidated from 11 files to 6 core files:**
 - 📄 **README.md** - Project overview & quick start
-- 📋 **SCHEMA.md** - Complete field reference (122 fields)
-- 📐 **RULES.md** - Harmonization logic (269+ keywords)
-- 📚 **CODEBOOK.md** - Data dictionary & enums
+- 📋 **DATA-PROCESSING/SCHEMA.md** - Complete field reference (122 fields)
+- 📐 **DATA-PROCESSING/RULES.md** - Harmonization logic (269+ keywords)
+- 📚 **DATA-PROCESSING/CODEBOOK.md** - Data dictionary & enums
+- 📖 **METHODOLOGY.md** - Theoretical framework
 - 📖 **UPDATES.md** - Release notes & roadmap
 
 **Benefits:**

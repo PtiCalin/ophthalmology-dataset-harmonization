@@ -1,10 +1,28 @@
 """
-Quick validation test for the robust schema.
-Run this to verify the enhanced schema is working correctly.
+SCHEMA VALIDATION TESTS - Ensuring our data structure works correctly.
+
+WHAT THESE TESTS DO:
+- Verify that HarmonizedRecord objects can be created
+- Check that nested objects (ClinicalFindings, PatientClinicalData, etc.) work
+- Validate type safety and data integrity
+- Test serialization and deserialization
+- Ensure schema columns are properly defined
+
+WHY THIS MATTERS:
+- Data structures must be reliable for clinical data
+- Type errors could lead to incorrect analysis
+- Serialization must work for data persistence
+- Schema consistency enables cross-dataset analysis
+
+RUN THIS TO VERIFY:
+- Schema definitions are correct
+- All dataclasses instantiate properly
+- Validation rules work as expected
+- No breaking changes in recent updates
 """
 
 from src.schema import (
-    HarmonizedRecord, ImageMetadata, ClinicalFindings, 
+    HarmonizedRecord, ImageMetadata, ClinicalFindings,
     PatientClinicalData, DeviceAndAcquisition,
     Modality, Laterality, DiagnosisCategory, Severity,
     create_schema_columns, create_harmonized_record_template
@@ -12,7 +30,11 @@ from src.schema import (
 
 
 def test_basic_creation():
-    """Test basic record creation."""
+    """TEST 1: Can we create the most basic HarmonizedRecord?
+
+    This tests the minimum required fields for a valid record.
+    Every record MUST have an image_id and dataset_source.
+    """
     print("Test 1: Basic Record Creation...")
     record = HarmonizedRecord(
         image_id="test_001",
@@ -20,14 +42,18 @@ def test_basic_creation():
     )
     assert record.image_id == "test_001"
     assert record.dataset_source == "Test Dataset"
-    assert record.modality == "Unknown"
+    assert record.modality == "Unknown"  # Default value
     print("✓ Basic creation works")
 
 
 def test_nested_objects():
-    """Test nested object creation."""
+    """TEST 2: Do nested objects work correctly?
+
+    HarmonizedRecord contains nested dataclasses for organized data.
+    This ensures ClinicalFindings, PatientClinicalData, etc. function properly.
+    """
     print("\nTest 2: Nested Objects...")
-    
+
     clinical = ClinicalFindings(
         hemorrhages_present=True,
         microaneurysms_present=True,
@@ -35,7 +61,7 @@ def test_nested_objects():
     )
     assert clinical.hemorrhages_present is True
     assert clinical.cup_to_disc_ratio == 0.65
-    
+
     patient = PatientClinicalData(
         age=55,
         sex="M",
@@ -44,7 +70,7 @@ def test_nested_objects():
     )
     assert patient.age == 55
     assert patient.bmi == 28.5
-    
+
     device = DeviceAndAcquisition(
         device_type="Fundus Camera",
         manufacturer="Topcon"

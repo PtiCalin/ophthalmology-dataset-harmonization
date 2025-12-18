@@ -5,12 +5,24 @@ This module defines the unified, extensible data structure for consolidating div
 ophthalmology datasets including fundus imaging, OCT scans, and clinical metadata across
 multiple modalities, disease categories, and patient populations.
 
-Designed to capture:
+WHY THIS SCHEMA EXISTS:
+- Healthcare data is fragmented across institutions, studies, and formats
+- Standardizing enables research collaboration and clinical insights
+- Type safety prevents data corruption and runtime errors
+- Extensibility accommodates new requirements without breaking existing code
+
+WHAT THIS CAPTURES:
 - Image metadata (technical specs, quality metrics, device info)
 - Clinical findings (diagnoses, severity, measurements, imaging signs)
 - Patient demographics (age, sex, ethnicity, comorbidities, medications)
 - Study context (exam date/time, facility, device, visit number)
 - Quality/provenance (data source, annotation confidence, validation status)
+
+HOW TO USE:
+1. Import the HarmonizedRecord class
+2. Create instances with your data
+3. Access nested objects for specific domains
+4. Use built-in validation and serialization methods
 """
 
 from typing import Optional, Dict, Any, List
@@ -21,31 +33,47 @@ from datetime import datetime
 
 
 class Modality(str, Enum):
-    """Imaging modality types for fundus and anterior segment imaging."""
-    FUNDUS = "Fundus"  # Color fundus photography (CFP), widefield
-    OCT = "OCT"  # Optical Coherence Tomography (SD-OCT, SS-OCT)
-    OCT_A = "OCTA"  # OCT Angiography
-    SLIT_LAMP = "Slit-Lamp"  # Slit-lamp biomicroscopy
-    FLUORESCEIN_ANGIOGRAPHY = "Fluorescein Angiography"  # FA
-    FUNDUS_AUTOFLUORESCENCE = "Fundus Autofluorescence"  # FAF
-    INFRARED = "Infrared"  # Infrared reflectance
-    ULTRASOUND = "Ultrasound"  # A/B-scan ultrasound
-    ANTERIOR_SEGMENT = "Anterior Segment"  # Anterior segment imaging
-    SPECULAR_MICROSCOPY = "Specular Microscopy"  # Endothelial cell imaging
-    VISUAL_FIELD = "Visual Field"  # Perimetry
-    OCT_ANGIO = "OCT Angio"  # Vascular imaging
-    UNKNOWN = "Unknown"
+    """
+    Imaging modality types for fundus and anterior segment imaging.
+
+    WHY ENUMS: Restricts values to valid options, prevents typos, enables IDE autocomplete.
+    WHY THESE VALUES: Covers all major ophthalmology imaging techniques used in clinical practice.
+    """
+    FUNDUS = "Fundus"  # Color fundus photography (CFP), widefield - standard retinal imaging
+    OCT = "OCT"  # Optical Coherence Tomography (SD-OCT, SS-OCT) - 3D retinal structure
+    OCT_A = "OCTA"  # OCT Angiography - vascular networks and blood flow
+    SLIT_LAMP = "Slit-Lamp"  # Slit-lamp biomicroscopy - anterior segment examination
+    FLUORESCEIN_ANGIOGRAPHY = "Fluorescein Angiography"  # FA - dye-based vascular imaging
+    FUNDUS_AUTOFLUORESCENCE = "Fundus Autofluorescence"  # FAF - metabolic activity imaging
+    INFRARED = "Infrared"  # Infrared reflectance - structural imaging without visible light
+    ULTRASOUND = "Ultrasound"  # A/B-scan ultrasound - acoustic imaging for dense media
+    ANTERIOR_SEGMENT = "Anterior Segment"  # Anterior segment imaging - front of eye structures
+    SPECULAR_MICROSCOPY = "Specular Microscopy"  # Endothelial cell imaging - corneal health
+    VISUAL_FIELD = "Visual Field"  # Perimetry - functional vision testing
+    OCT_ANGIO = "OCT Angio"  # Vascular imaging (alternative naming)
+    UNKNOWN = "Unknown"  # Default for unidentified modalities
 
 
 class Laterality(str, Enum):
-    """Eye laterality codes."""
-    OD = "OD"  # Right eye (Oculus Dexter)
-    OS = "OS"  # Left eye (Oculus Sinister)
-    OU = "OU"  # Both eyes (Oculus Uterque)
+    """
+    Eye laterality codes following ophthalmology conventions.
+
+    WHY STANDARDIZED: Ensures consistent representation across languages and institutions.
+    MEDICAL CONVENTION: OD (right), OS (left), OU (both) from Latin oculus (eye).
+    """
+    OD = "OD"  # Right eye (Oculus Dexter) - patient's right, doctor's left
+    OS = "OS"  # Left eye (Oculus Sinister) - patient's left, doctor's right
+    OU = "OU"  # Both eyes (Oculus Uterque) - bilateral examination
 
 
 class DiagnosisCategory(str, Enum):
-    """Standardized diagnosis categories covering major retinal and anterior segment diseases."""
+    """
+    Standardized diagnosis categories covering major retinal and anterior segment diseases.
+
+    WHY STANDARDIZED: Enables cross-study comparison and meta-analysis.
+    BASED ON: Clinical classifications (ICD-10, SNOMED-CT) and research standards.
+    COVERAGE: Comprehensive but not exhaustive - extensible for new conditions.
+    """
     NORMAL = "Normal"
     DIABETIC_RETINOPATHY = "Diabetic Retinopathy"
     DIABETIC_MACULAR_EDEMA = "Diabetic Macular Edema"
@@ -316,35 +344,50 @@ class PatientClinicalData:
 class HarmonizedRecord:
     """
     Comprehensive canonical schema for harmonized ophthalmology dataset records.
-    
-    This is an enterprise-grade schema designed to capture data across all major ophthalmic
-    imaging modalities (fundus, OCT, slit-lamp, etc.) and all disease categories with
-    support for clinical findings, patient demographics, device information, and quality tracking.
-    
+
+    THIS IS THE MAIN DATA STRUCTURE - think of it as a standardized "patient record" for ophthalmology data.
+    Every harmonized record follows this exact format, regardless of the original dataset source.
+
+    WHY THIS DESIGN:
+    - Consolidates fragmented data from different studies into one consistent format
+    - Enables cross-dataset analysis and machine learning
+    - Maintains clinical relationships between imaging, diagnosis, and patient data
+    - Supports quality tracking and provenance
+
+    HOW TO CREATE A RECORD:
+    ```python
+    record = HarmonizedRecord(
+        image_id="patient_001_fundus_right",
+        dataset_source="Messidor",
+        modality="Fundus",
+        laterality="OD",
+        diagnosis_category="Diabetic Retinopathy",
+        severity="Moderate"
+    )
+    ```
+
     CORE STRUCTURE:
     ===============
-    Identifiers:
-        image_id: Unique per-image identifier (required)
-        dataset_source: Source dataset name (required)
-        patient_id: De-identified patient identifier
-        visit_number: Sequential visit number for longitudinal studies
-        
-    IMAGE METADATA:
+    Identifiers (REQUIRED - every record must have these):
+        image_id: Unique per-image identifier (like a primary key)
+        dataset_source: Where this data came from (for tracking provenance)
+
+    IMAGE METADATA (what was imaged):
         modality: Type of imaging (Fundus, OCT, etc.) - required
-        laterality: Eye being imaged (OD/OS/OU)
+        laterality: Which eye (OD/OS/OU)
         view_type: Specific anatomical view (macula, optic_disc, etc.)
         image_path: File path or filename
-        image_metadata: ImageMetadata object with technical specs
-        
-    DIAGNOSIS & CLINICAL:
-        diagnosis_raw: Original label from dataset
-        diagnosis_category: Standardized diagnosis
-        diagnosis_confidence: Auto-detection confidence (0.0-1.0)
+        image_metadata: Technical specs (resolution, quality, etc.)
+
+    DIAGNOSIS & CLINICAL (what was found):
+        diagnosis_raw: Original label from dataset (preserved for audit)
+        diagnosis_category: Standardized diagnosis (28 categories)
+        diagnosis_confidence: How sure we are (0.0-1.0)
         multiple_diagnoses: List of secondary diagnoses
         severity: Primary severity grade
-        clinical_findings: ClinicalFindings object
-        
-        disease_specific_fields: Dict for condition-specific data
+        clinical_findings: Detailed findings object
+
+        disease_specific_fields: Extra fields for specific conditions
             DR: dr_severity (ICDR scale), dme_present, dme_severity
             AMD: amd_type (dry/wet), amd_stage (early/intermediate/advanced)
             Glaucoma: cup_disc_ratio, glaucoma_stage, perimetric
