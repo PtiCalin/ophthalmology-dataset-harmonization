@@ -16,6 +16,7 @@ The automated discovery system consists of:
 ### Prerequisites
 
 1. **Kaggle API Access**:
+
    ```bash
    # Install kagglehub
    pip install kagglehub
@@ -25,6 +26,7 @@ The automated discovery system consists of:
    ```
 
 2. **Python Dependencies**:
+
    ```bash
    pip install requests pandas
    ```
@@ -118,6 +120,7 @@ while True:
 ### 1. Dataset Discovery
 
 The system searches Kaggle using:
+
 - User-specific dataset search
 - Keyword filtering for ophthalmology terms
 - Relevance scoring and ranking
@@ -125,12 +128,14 @@ The system searches Kaggle using:
 ### 2. Filtering
 
 Datasets are filtered using:
+
 - **Include Keywords**: ophthalmology, retina, fundus, OCT, eye, etc.
 - **Exclude Keywords**: non-medical, synthetic, test data, etc.
 
 ### 3. Documentation Generation
 
 For each new dataset, the system creates:
+
 - **DESCRIPTION.md**: Dataset overview and clinical context
 - **CODEBOOK.md**: Field definitions and validation rules
 - **INTEGRATION.md**: Loading instructions and harmonization steps
@@ -142,7 +147,7 @@ New datasets are automatically added to `INPUT/INPUT.md` in the "Documentation P
 
 ## Output Structure
 
-```
+```txt
 INPUT/
 ├── new-dataset-slug/
 │   ├── DESCRIPTION.md    # Auto-generated overview
@@ -254,8 +259,11 @@ To extend the discovery system:
 ## Support
 
 For issues or questions:
+
 1. Check the troubleshooting section
 2. Review logs for error messages
 3. Verify configuration settings
-4. Test with `--dry-run` flag</content>
-<parameter name="filePath">c:\Users\charl\OneDrive\Projets\ophthalmology-dataset-harmonization\AUTOMATED_DISCOVERY_README.md
+4. Test with `--dry-run` flag 
+
+</content>
+    <parametername="filePath">c:\Users\charl\OneDrive\Projets\ophthalmology-dataset-harmonization\AUTOMATED_DISCOVERY_README.md

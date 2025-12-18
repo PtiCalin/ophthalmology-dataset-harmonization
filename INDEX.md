@@ -7,9 +7,11 @@ Your project documentation has been consolidated into **6 core files** totaling 
 ## Quick Navigation
 
 ### 📖 **README.md**
+
 **Primary entry point** for project context, methodological approach, and technical implementation.
 
 **Includes:**
+
 - Project context and author background
 - Methodological framework for data harmonization
 - Technical architecture and core components
@@ -24,9 +26,11 @@ Your project documentation has been consolidated into **6 core files** totaling 
 ---
 
 ### 📋 **METHODOLOGY.md**
+
 **Theoretical foundations and methodological framework** for the harmonization approach.
 
 **Includes:**
+
 - Theoretical frameworks (FAIR principles, clinical standards, TDQM)
 - Detailed harmonization process architecture
 - Rule-based inference engine design
@@ -40,6 +44,7 @@ Your project documentation has been consolidated into **6 core files** totaling 
 ---
 
 ### 📋 **SCHEMA.md**
+
 **Complete field reference** for the 122-field data structure.
 
 **Includes:**
@@ -62,9 +67,11 @@ Your project documentation has been consolidated into **6 core files** totaling 
 ---
 
 ### 📐 **RULES.md**
+
 **Harmonization logic documentation** for all inference functions.
 
 **Includes:**
+
 - Complete diagnosis mapping (269+ keywords → 28 categories + severity)
 - All 8+ severity grading systems
 - Modality inference (150+ patterns across 12 types)
@@ -83,6 +90,7 @@ Your project documentation has been consolidated into **6 core files** totaling 
 ---
 
 ### 📚 **CODEBOOK.md**
+
 **Data dictionary and enumeration reference** for all standardized values.
 
 **Includes:**
@@ -110,6 +118,7 @@ Your project documentation has been consolidated into **6 core files** totaling 
 ---
 
 ### 📖 **UPDATES.md**
+
 **Release notes, enhancement history, and future roadmap.**
 
 **Includes:**
@@ -195,6 +204,7 @@ Your project documentation has been consolidated into **6 core files** totaling 
 ## Key Statistics
 
 ### Schema Coverage
+
 - **Total Fields:** 122 (30 top-level + 92 nested)
 - **Nested Objects:** 4 dataclasses
 - **Enumerations:** 9 types with 45+ values
@@ -203,6 +213,7 @@ Your project documentation has been consolidated into **6 core files** totaling 
 - **Supported Disease Categories:** 28
 
 ### Rules Coverage
+
 - **Diagnosis Keywords:** 269+ (5.4× expansion)
 - **Severity Systems:** 8+
 - **Modality Patterns:** 150+ (10× expansion)
@@ -210,6 +221,7 @@ Your project documentation has been consolidated into **6 core files** totaling 
 - **Inference Functions:** 15+
 
 ### Testing & Quality
+
 - **Test Cases:** 18+ (all passing ✅)
 - **Code Files:** src/schema.py (643 lines), src/rules.py (1,020+ lines)
 - **Documentation Lines:** 1,750+
@@ -265,6 +277,7 @@ Documentation was recently consolidated from **11 files → 5 files** (54% reduc
 - NOTEBOOK_GUIDE.md
 
 **Consolidated to 6 Files:**
+
 - README.md (quick start + architecture)
 - METHODOLOGY.md (theoretical framework)
 - DATA-PROCESSING/SCHEMA.md (complete field reference)
@@ -329,21 +342,25 @@ A: See **DATA-PROCESSING/RULES.md** → Pattern Matching Strategy section.
 ## Getting Help
 
 **For technical questions:**
+
 - See **README.md** → Architecture section
 - See **DATA-PROCESSING/SCHEMA.md** → Complete reference
 - See **DATA-PROCESSING/RULES.md** → Function documentation
 
 **For data questions:**
+
 - See **DATA-PROCESSING/CODEBOOK.md** → Data dictionary
 - See **DATA-PROCESSING/SCHEMA.md** → Field definitions
 - See **DATA-PROCESSING/RULES.md** → Inference logic
 
 **For methodological questions:**
+
 - See **METHODOLOGY.md** → Theoretical frameworks
 - See **METHODOLOGY.md** → Harmonization process architecture
 - See **METHODOLOGY.md** → Quality assurance strategies
 
 **For project questions:**
+
 - See **README.md** → Project overview
 - See **UPDATES.md** → Enhancement history
 - See **UPDATES.md** → Roadmap & future plans

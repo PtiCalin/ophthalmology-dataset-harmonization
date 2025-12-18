@@ -28,6 +28,7 @@ input/
 - Update pipeline configuration
 
 ### Step 4: Register Dataset
+
 Add the dataset to the datasources list below and update any relevant configuration files.
 
 ## Datasources
