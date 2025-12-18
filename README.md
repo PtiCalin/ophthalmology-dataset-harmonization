@@ -162,14 +162,14 @@ The canonical schema comprises 122 fields organized into 30 top-level columns an
 
 ### Nested Data Structures
 
-**ClinicalFindings (25 fields)**
+**ClinicalFindings (25 fields):**
 
 - Retinal pathology: hemorrhages, microaneurysms, exudates, cotton_wool_spots, macular_edema
 - Optic disc assessment: cup_disc_ratio, disc_pallor, disc_cupping, disc_size
 - Vascular features: vessel_tortuosity, vessel_narrowing, vessel_occlusions, neovascularization
 - Macular parameters: oct_thickness, central_subfield_thickness, macular_volume
 
-**PatientClinicalData (35 fields)**
+**PatientClinicalData (35 fields):**
 
 - Demographic information: age, sex, ethnicity, race
 - Systemic conditions: diabetes_type, diabetes_duration, hba1c, hypertension, hyperlipidemia
@@ -177,13 +177,13 @@ The canonical schema comprises 122 fields organized into 30 top-level columns an
 - Ocular metrics: intraocular_pressure, visual_acuity, axial_length, keratometry
 - Treatment history: medications, lifestyle_factors
 
-**DeviceAndAcquisition (12 fields)**
+**DeviceAndAcquisition (12 fields):**
 
 - Equipment specifications: device_type, manufacturer, model, software_version
 - Acquisition parameters: pupil_dilation, eye_side, scan_parameters
 - Environmental conditions: lighting_conditions, temperature, humidity
 
-**ImageMetadata (20 fields)**
+**ImageMetadata (20 fields):**
 
 - Image characteristics: resolution, color_space, bit_depth, field_of_view
 - Quality metrics: overall_quality_score, sharpness_score, illumination_score, contrast_score
@@ -313,5 +313,4 @@ api_token = os.getenv("KAGGLE_API_TOKEN")
 
 **Documentation Reference:** Consult DATA-PROCESSING/SCHEMA.md for field specifications, DATA-PROCESSING/RULES.md for inference methodologies, or DATA-PROCESSING/CODEBOOK.md for standardized values.
 
-
-
+---

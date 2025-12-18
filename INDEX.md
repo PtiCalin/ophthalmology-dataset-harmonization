@@ -151,6 +151,7 @@ Your project documentation has been consolidated into **6 core files** totaling 
 ## Reading Paths by Role
 
 ### 👨‍💻 Software Developer
+
 1. README.md → Architecture section
 2. METHODOLOGY.md → Theoretical foundations
 3. DATA-PROCESSING/SCHEMA.md → Field definitions & examples
@@ -158,6 +159,7 @@ Your project documentation has been consolidated into **6 core files** totaling 
 5. DATA-PROCESSING/CODEBOOK.md → As needed for enumerations
 
 ### 📊 Data Analyst / Data Engineer
+
 1. README.md → Schema overview
 2. METHODOLOGY.md → Quality assurance frameworks
 3. DATA-PROCESSING/CODEBOOK.md → All enumerations & validation
@@ -165,6 +167,7 @@ Your project documentation has been consolidated into **6 core files** totaling 
 5. DATA-PROCESSING/RULES.md → Diagnosis mapping & inference
 
 ### 🔬 Researcher / ML Engineer
+
 1. METHODOLOGY.md → Theoretical frameworks & validation strategies
 2. UPDATES.md → Project history & enhancement roadmap
 3. DATA-PROCESSING/RULES.md → Diagnosis mapping (269+ keywords)
@@ -172,6 +175,7 @@ Your project documentation has been consolidated into **6 core files** totaling 
 5. README.md → Architecture & performance metrics
 
 ### 📚 New User / Student
+
 1. README.md → Introduction (read carefully!)
 2. METHODOLOGY.md → Understanding the approach
 3. Follow architecture guide in README.md
@@ -180,6 +184,7 @@ Your project documentation has been consolidated into **6 core files** totaling 
 6. DATA-PROCESSING/RULES.md → Deep dive into harmonization
 
 ### 👨‍💼 Project Manager / Stakeholder
+
 1. README.md → Project description & status
 2. METHODOLOGY.md → Methodological rigor & compliance
 3. UPDATES.md → Current version & statistics

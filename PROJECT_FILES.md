@@ -9,9 +9,11 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 ## Project Structure (5 Files)
 
 ### 1. **README.md** (3 KB)
+
 **Purpose:** Project overview, quick start, architecture reference
 
 **Contains:**
+
 - Project description & status
 - Quick installation & run instructions
 - What the project does (schema, loading, rules, multi-dataset)
@@ -26,9 +28,11 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 ---
 
 ### 2. **DATA-PROCESSING/SCHEMA.md** (12 KB)
+
 **Purpose:** Complete field-by-field data structure reference
 
 **Contains:**
+
 - Overview of 122-field schema
 - All 30 top-level columns with descriptions
 - All 4 nested objects:
@@ -46,9 +50,11 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 ---
 
 ### 3. **DATA-PROCESSING/RULES.md** (14 KB)
+
 **Purpose:** Diagnosis mapping, inference logic, and harmonization rules
 
 **Contains:**
+
 - Complete diagnosis mapping (269+ keywords, 28 categories)
 - All severity grading systems (8+ systems)
 - Modality inference (150+ patterns, 12 modalities)
@@ -65,9 +71,11 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 ---
 
 ### 4. **DATA-PROCESSING/CODEBOOK.md** (10 KB)
+
 **Purpose:** Data dictionary and enumeration reference
 
 **Contains:**
+
 - Modality enumeration (12 values)
 - Laterality codes (3 values + variants)
 - Diagnosis categories (28 values + SNOMED/ICD-10)
@@ -90,9 +98,11 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 ---
 
 ### 5. **UPDATES.md** (12 KB)
+
 **Purpose:** Release notes, enhancement history, and roadmap
 
 **Contains:**
+
 - Current version (v2.0 Production)
 - Major enhancements (Phase 2):
   - Diagnosis mapping (269+ keywords)
@@ -142,6 +152,7 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 ## Information Preservation
 
 ### Nothing is Lost
+
 ✅ All 122 schema fields documented  
 ✅ All 269+ diagnosis keywords preserved  
 ✅ All 8+ severity grading systems included  
@@ -155,6 +166,7 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 ✅ Complete roadmap included  
 
 ### Better Organized
+
 ✅ Logical file structure (5 core files)  
 ✅ Cross-referenced between files  
 ✅ Consistent formatting  
@@ -168,7 +180,8 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 ## File Sizes
 
 ### Before Consolidation
-```
+
+```txt
 DELIVERY_SUMMARY.md              13.2 KB
 SCHEMA_REFERENCE.md              21.9 KB
 ROBUST_SCHEMA_SUMMARY.md         12.4 KB
@@ -185,7 +198,8 @@ TOTAL:                          111.2 KB (11 files)
 ```
 
 ### After Consolidation
-```
+
+```txt
 README.md         3.2 KB
 DATA-PROCESSING/SCHEMA.md        12.0 KB
 DATA-PROCESSING/RULES.md         14.5 KB
@@ -233,12 +247,14 @@ TOTAL:           51.3 KB (5 files)
 ## Maintenance Benefits
 
 ### Easier Updates
+
 - 5 files vs 11 files to maintain
 - Clear ownership: each file has single purpose
 - Reduced duplication → fewer places to update
 - Cross-references centralized
 
 ### Better Discoverability
+
 - README.md → Start here
 - SCHEMA.md → For data structure
 - RULES.md → For inference logic
@@ -246,6 +262,7 @@ TOTAL:           51.3 KB (5 files)
 - UPDATES.md → For history
 
 ### Faster Navigation
+
 - No redundant content repeated across files
 - Each file stands alone
 - Logical organization by topic
@@ -256,6 +273,7 @@ TOTAL:           51.3 KB (5 files)
 ## Next Steps
 
 ### Remove Old Files (Optional)
+
 ```bash
 # Archive old documentation (if desired)
 mkdir -p docs/archive
@@ -282,6 +300,7 @@ mv SCHEMA_REFERENCE.md docs/archive/
 ## Summary
 
 **Documentation has been successfully consolidated from 11 files to 6 core files:**
+
 - 📄 **README.md** - Project overview & quick start
 - 📋 **DATA-PROCESSING/SCHEMA.md** - Complete field reference (122 fields)
 - 📐 **DATA-PROCESSING/RULES.md** - Harmonization logic (269+ keywords)
@@ -290,6 +309,7 @@ mv SCHEMA_REFERENCE.md docs/archive/
 - 📖 **UPDATES.md** - Release notes & roadmap
 
 **Benefits:**
+
 - ✅ 54% smaller documentation
 - ✅ Zero information loss
 - ✅ Better organization
@@ -301,11 +321,14 @@ mv SCHEMA_REFERENCE.md docs/archive/
 ## API Access Documentation
 
 ### Kaggle API
+
 - API Key: Managed via environment variable `KAGGLE_API_TOKEN`.
 - Setup: Run `setup_kaggle_api.ps1` in PowerShell to set the token for your session.
 - Python Access:
+
   ```python
   import os
   api_token = os.getenv("KAGGLE_API_TOKEN")
   ```
+  
 - CLI Access: After running the setup script, use Kaggle CLI commands (e.g., `kaggle competitions list`).

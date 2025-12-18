@@ -364,7 +364,8 @@ record.patient_clinical.hba1c
 MIT License - Use freely with attribution
 
 **Citation:**
-```
+
+```tct
 Ophthalmology Dataset Harmonization Pipeline v2.0
 Python-based multi-dataset consolidation engine
 December 2025
