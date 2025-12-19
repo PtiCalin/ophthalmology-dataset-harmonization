@@ -159,8 +159,6 @@ Add the dataset to the datasources list below and update any relevant configurat
   - Ophthalmology dataset from sovitrath
   - Status: Documentation auto-generated, manual review pending
 
-
-
 - **Retinal Images for Diabetic Retinopathy** (`retinal-images-for-diabetic-retinopathy/`)
   - Focused DR detection and grading dataset
   - Status: Documentation pending
@@ -232,4 +230,3 @@ Add the dataset to the datasources list below and update any relevant configurat
 ### Dataset Template
 
 Use the `refuge2-dataset/` folder as a template for new dataset integrations. 
-
