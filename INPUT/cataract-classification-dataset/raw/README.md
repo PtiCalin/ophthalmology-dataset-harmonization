@@ -5,17 +5,20 @@ This directory should contain the raw cataract-classification-dataset dataset fi
 ## Expected Files
 
 ### Clinical Data
+
 - clinical_annotations.csv - Clinical measurements and diagnoses
 - patient_demographics.csv - Patient demographic information
 - image_metadata.csv - Image acquisition details
 
 ### Image Data
+
 - images/ - Directory containing retinal images
   - 	raining/ - Training set images
   - alidation/ - Validation set images
   - 	est/ - Test set images
 
 ### Ground Truth
+
 - ground_truth.csv - Expert annotations
 - segmentation_masks/ - Pixel-level segmentation masks (if available)
 
@@ -29,6 +32,7 @@ This directory should contain the raw cataract-classification-dataset dataset fi
 ## Data Verification
 
 After download, verify:
+
 - All expected CSV files are present
 - Image directories contain expected number of files
 - File sizes match dataset description
@@ -38,4 +42,4 @@ After download, verify:
 
 - Images are typically in high-resolution format
 - Dataset size varies by collection
-- Maintain original file names and directory structure for proper integration
+- Maintain original file znames and directory structure for proper integration
