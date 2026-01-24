@@ -9,9 +9,11 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 ## Project Structure (5 Files)
 
 ### 1. **README.md** (3 KB)
+
 **Purpose:** Project overview, quick start, architecture reference
 
 **Contains:**
+
 - Project description & status
 - Quick installation & run instructions
 - What the project does (schema, loading, rules, multi-dataset)
@@ -25,10 +27,12 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 
 ---
 
-### 2. **SCHEMA.md** (12 KB)
+### 2. **DATA-PROCESSING/SCHEMA.md** (12 KB)
+
 **Purpose:** Complete field-by-field data structure reference
 
 **Contains:**
+
 - Overview of 122-field schema
 - All 30 top-level columns with descriptions
 - All 4 nested objects:
@@ -45,10 +49,12 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 
 ---
 
-### 3. **RULES.md** (14 KB)
+### 3. **DATA-PROCESSING/RULES.md** (14 KB)
+
 **Purpose:** Diagnosis mapping, inference logic, and harmonization rules
 
 **Contains:**
+
 - Complete diagnosis mapping (269+ keywords, 28 categories)
 - All severity grading systems (8+ systems)
 - Modality inference (150+ patterns, 12 modalities)
@@ -64,10 +70,12 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 
 ---
 
-### 4. **CODEBOOK.md** (10 KB)
+### 4. **DATA-PROCESSING/CODEBOOK.md** (10 KB)
+
 **Purpose:** Data dictionary and enumeration reference
 
 **Contains:**
+
 - Modality enumeration (12 values)
 - Laterality codes (3 values + variants)
 - Diagnosis categories (28 values + SNOMED/ICD-10)
@@ -90,9 +98,11 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 ---
 
 ### 5. **UPDATES.md** (12 KB)
+
 **Purpose:** Release notes, enhancement history, and roadmap
 
 **Contains:**
+
 - Current version (v2.0 Production)
 - Major enhancements (Phase 2):
   - Diagnosis mapping (269+ keywords)
@@ -124,11 +134,11 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 | README.md | 180 | → | README.md | Quick Start, Architecture |
 | PROJECT_STRUCTURE.md | 70 | → | README.md | Architecture |
 | QUICK_START.md | 300 | → | README.md | Quick Start, Next Steps |
-| SCHEMA_REFERENCE.md | 1000+ | → | SCHEMA.md | Complete Field Reference |
-| SCHEMA_STATISTICS.md | 400+ | → | SCHEMA.md + CODEBOOK.md | Fields & Enums |
+| SCHEMA_REFERENCE.md | 1000+ | → | DATA-PROCESSING/SCHEMA.md | Complete Field Reference |
+| SCHEMA_STATISTICS.md | 400+ | → | DATA-PROCESSING/SCHEMA.md + DATA-PROCESSING/CODEBOOK.md | Fields & Enums |
 | SCHEMA_ENHANCEMENT_COMPLETE.md | 300+ | → | UPDATES.md | Version 1.0 Enhancement |
 | ROBUST_SCHEMA_SUMMARY.md | 400+ | → | UPDATES.md | Enhancement Summary |
-| ENHANCEMENT_SUMMARY.md | 280+ | → | RULES.md | Rules Explanation |
+| ENHANCEMENT_SUMMARY.md | 280+ | → | DATA-PROCESSING/RULES.md | Rules Explanation |
 | ENHANCEMENTS_COMPLETED.md | 350+ | → | UPDATES.md | Enhancement Details |
 | DELIVERY_SUMMARY.md | 430+ | → | UPDATES.md | Project Statistics |
 | NOTEBOOK_GUIDE.md | 150+ | → | README.md | (Referenced) |
@@ -142,6 +152,7 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 ## Information Preservation
 
 ### Nothing is Lost
+
 ✅ All 122 schema fields documented  
 ✅ All 269+ diagnosis keywords preserved  
 ✅ All 8+ severity grading systems included  
@@ -155,6 +166,7 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 ✅ Complete roadmap included  
 
 ### Better Organized
+
 ✅ Logical file structure (5 core files)  
 ✅ Cross-referenced between files  
 ✅ Consistent formatting  
@@ -168,7 +180,8 @@ The ophthalmology dataset harmonization project documentation has been **consoli
 ## File Sizes
 
 ### Before Consolidation
-```
+
+```txt
 DELIVERY_SUMMARY.md              13.2 KB
 SCHEMA_REFERENCE.md              21.9 KB
 ROBUST_SCHEMA_SUMMARY.md         12.4 KB
@@ -185,11 +198,12 @@ TOTAL:                          111.2 KB (11 files)
 ```
 
 ### After Consolidation
-```
+
+```txt
 README.md         3.2 KB
-SCHEMA.md        12.0 KB
-RULES.md         14.5 KB
-CODEBOOK.md       9.8 KB
+DATA-PROCESSING/SCHEMA.md        12.0 KB
+DATA-PROCESSING/RULES.md         14.5 KB
+DATA-PROCESSING/CODEBOOK.md       9.8 KB
 UPDATES.md       11.8 KB
 ────────────────────────────────────────
 TOTAL:           51.3 KB (5 files)
@@ -209,36 +223,38 @@ TOTAL:           51.3 KB (5 files)
 
 **👨‍💻 Developer / Engineer**
 → Start with README.md (Architecture section)
-→ Deep dive: SCHEMA.md (field reference)
-→ Reference: RULES.md (inference logic) + CODEBOOK.md (enums)
+→ Deep dive: DATA-PROCESSING/SCHEMA.md (field reference)
+→ Reference: DATA-PROCESSING/RULES.md (inference logic) + DATA-PROCESSING/CODEBOOK.md (enums)
 
 **📊 Data Analyst**
 → Start with README.md (Features section)
-→ Reference: CODEBOOK.md (all enumerations)
-→ Deep dive: SCHEMA.md (patient data fields)
+→ Reference: DATA-PROCESSING/CODEBOOK.md (all enumerations)
+→ Deep dive: DATA-PROCESSING/SCHEMA.md (patient data fields)
 
 **🔬 Researcher**
 → Start with UPDATES.md (Enhancement History)
-→ Deep dive: RULES.md (diagnosis mapping)
-→ Reference: CODEBOOK.md (disease definitions)
+→ Deep dive: DATA-PROCESSING/RULES.md (diagnosis mapping)
+→ Reference: DATA-PROCESSING/CODEBOOK.md (disease definitions)
 
 **🎓 Student / Learning**
 → Start with README.md (overview)
 → Follow: README.md (Architecture → Quick Start)
-→ Explore: SCHEMA.md (field by field)
-→ Apply: Example code in SCHEMA.md
+→ Explore: DATA-PROCESSING/SCHEMA.md (field by field)
+→ Apply: Example code in DATA-PROCESSING/SCHEMA.md
 
 ---
 
 ## Maintenance Benefits
 
 ### Easier Updates
+
 - 5 files vs 11 files to maintain
 - Clear ownership: each file has single purpose
 - Reduced duplication → fewer places to update
 - Cross-references centralized
 
 ### Better Discoverability
+
 - README.md → Start here
 - SCHEMA.md → For data structure
 - RULES.md → For inference logic
@@ -246,6 +262,7 @@ TOTAL:           51.3 KB (5 files)
 - UPDATES.md → For history
 
 ### Faster Navigation
+
 - No redundant content repeated across files
 - Each file stands alone
 - Logical organization by topic
@@ -256,6 +273,7 @@ TOTAL:           51.3 KB (5 files)
 ## Next Steps
 
 ### Remove Old Files (Optional)
+
 ```bash
 # Archive old documentation (if desired)
 mkdir -p docs/archive
@@ -265,11 +283,13 @@ mv SCHEMA_REFERENCE.md docs/archive/
 ```
 
 ### Update References
+
 ✅ All cross-references updated  
 ✅ All links verified  
 ✅ All section numbers current  
 
 ### Keep New Structure
+
 - Use 5-file structure going forward
 - Add to existing files rather than creating new ones
 - Update UPDATES.md with changes
@@ -279,14 +299,17 @@ mv SCHEMA_REFERENCE.md docs/archive/
 
 ## Summary
 
-**Documentation has been successfully consolidated from 11 files to 5 core files:**
+**Documentation has been successfully consolidated from 11 files to 6 core files:**
+
 - 📄 **README.md** - Project overview & quick start
-- 📋 **SCHEMA.md** - Complete field reference (122 fields)
-- 📐 **RULES.md** - Harmonization logic (269+ keywords)
-- 📚 **CODEBOOK.md** - Data dictionary & enums
+- 📋 **DATA-PROCESSING/SCHEMA.md** - Complete field reference (122 fields)
+- 📐 **DATA-PROCESSING/RULES.md** - Harmonization logic (269+ keywords)
+- 📚 **DATA-PROCESSING/CODEBOOK.md** - Data dictionary & enums
+- 📖 **METHODOLOGY.md** - Theoretical framework
 - 📖 **UPDATES.md** - Release notes & roadmap
 
 **Benefits:**
+
 - ✅ 54% smaller documentation
 - ✅ Zero information loss
 - ✅ Better organization
@@ -298,11 +321,14 @@ mv SCHEMA_REFERENCE.md docs/archive/
 ## API Access Documentation
 
 ### Kaggle API
+
 - API Key: Managed via environment variable `KAGGLE_API_TOKEN`.
 - Setup: Run `setup_kaggle_api.ps1` in PowerShell to set the token for your session.
 - Python Access:
+
   ```python
   import os
   api_token = os.getenv("KAGGLE_API_TOKEN")
   ```
+  
 - CLI Access: After running the setup script, use Kaggle CLI commands (e.g., `kaggle competitions list`).

@@ -1,0 +1,2 @@
+# This file ensures the raw/ directory is tracked by git
+# Raw dataset files should be placed here (not committed to repository)
