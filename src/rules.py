@@ -1,15 +1,47 @@
 """
 Comprehensive harmonization ruleset for standardizing ophthalmology dataset fields.
 
-This module provides extensive mappings and inference logic for:
-- Diagnosis normalization (140+ keywords with severity grading)
-- Severity scaling for all major conditions
-- Modality detection across all imaging types (12+ modalities)
-- Laterality detection (multi-language support)
-- Clinical finding keywords and patterns
-- Image quality assessment
+THIS MODULE IS THE "BRAIN" OF THE HARMONIZATION PROCESS:
+- Takes messy, inconsistent raw data from different sources
+- Applies intelligent rules to standardize everything
+- Outputs clean, consistent, analysis-ready data
+
+WHY RULES-BASED APPROACH:
+- Deterministic and auditable (unlike ML black boxes)
+- Fast execution (no model inference overhead)
+- Maintainable (can add new rules without retraining)
+- Interpretable (can explain why a decision was made)
+
+WHAT THIS DOES:
+- Diagnosis normalization (269+ keywords → 28 standardized categories + severity)
+- Severity scaling for all major conditions using clinical standards
+- Modality detection across 12+ imaging types from filenames/metadata
+- Laterality detection (multi-language support: English, French, Spanish)
+- Clinical finding keywords and patterns (37+ finding types)
+- Image quality assessment (5-level scale)
 - Patient demographic standardization
 - Advanced pattern matching and confidence scoring
+
+HOW IT WORKS:
+1. Raw text/data comes in from various datasets
+2. Rules engine matches patterns and applies transformations
+3. Confidence scores indicate how certain we are
+4. Standardized output goes to HarmonizedRecord
+
+EXAMPLE USAGE:
+```python
+from src.rules import normalize_diagnosis, infer_modality
+
+# Raw messy diagnosis from a dataset
+raw_diagnosis = "mod npdr with dme"
+category, severity = normalize_diagnosis(raw_diagnosis)
+# Returns: ('Diabetic Retinopathy', 'Moderate')
+
+# Filename-based modality detection
+filename = "patient_001_OCT_macula.tif"
+modality = infer_modality(filename)
+# Returns: 'OCT'
+```
 
 Designed for multi-dataset harmonization across Kaggle, clinical trials, and hospital data.
 """
@@ -24,28 +56,31 @@ import re
 
 DIAGNOSIS_MAPPING = {
     # ========== DIABETIC RETINOPATHY (DR) ==========
+    # WHY THIS MATTERS: DR is the leading cause of blindness in working adults
+    # ICDR SCALE: International standard for severity grading
     'diabetic retinopathy': ('Diabetic Retinopathy', None),
-    'dr': ('Diabetic Retinopathy', None),
-    'diabetes retinopathy': ('Diabetic Retinopathy', None),
-    'retinopathy due to diabetes': ('Diabetic Retinopathy', None),
-    'no dr': ('Normal', None),
+    'dr': ('Diabetic Retinopathy', None),  # Common abbreviation
+    'diabetes retinopathy': ('Diabetic Retinopathy', None),  # Alternative phrasing
+    'retinopathy due to diabetes': ('Diabetic Retinopathy', None),  # Formal description
+    'no dr': ('Normal', None),  # Negative findings
     'no diabetic retinopathy': ('Normal', None),
     'without dr': ('Normal', None),
     'negative for dr': ('Normal', None),
-    
-    # DR Severity (ICDR Scale)
-    'non-proliferative': ('Diabetic Retinopathy', 'Mild'),
+
+    # DR Severity (ICDR Scale - Mild/Moderate/Severe/Proliferative)
+    # WHY ICDR: Clinically validated, used in major trials (DRCR.net, ETDRS)
+    'non-proliferative': ('Diabetic Retinopathy', 'Mild'),  # Early stage
     'nonproliferative': ('Diabetic Retinopathy', 'Mild'),
-    'npdr': ('Diabetic Retinopathy', 'Mild'),
+    'npdr': ('Diabetic Retinopathy', 'Mild'),  # Common abbreviation
     'mild npdr': ('Diabetic Retinopathy', 'Mild'),
     'mild non-proliferative': ('Diabetic Retinopathy', 'Mild'),
     'minimal npdr': ('Diabetic Retinopathy', 'Mild'),
-    'moderate npdr': ('Diabetic Retinopathy', 'Moderate'),
+    'moderate npdr': ('Diabetic Retinopathy', 'Moderate'),  # Mid-stage
     'moderate non-proliferative': ('Diabetic Retinopathy', 'Moderate'),
     'moderately severe npdr': ('Diabetic Retinopathy', 'Moderate'),
-    'severe npdr': ('Diabetic Retinopathy', 'Severe'),
+    'severe npdr': ('Diabetic Retinopathy', 'Severe'),  # Advanced NPDR
     'severe non-proliferative': ('Diabetic Retinopathy', 'Severe'),
-    'proliferative': ('Diabetic Retinopathy', 'Proliferative'),
+    'proliferative': ('Diabetic Retinopathy', 'Proliferative'),  # PDR - most severe
     'proliferative dr': ('Diabetic Retinopathy', 'Proliferative'),
     'proliferative diabetic retinopathy': ('Diabetic Retinopathy', 'Proliferative'),
     'pdr': ('Diabetic Retinopathy', 'Proliferative'),
@@ -637,32 +672,57 @@ STUDY_KEYWORDS = {
 
 def normalize_diagnosis(diagnosis_text: Optional[str]) -> Tuple[Optional[str], Optional[str]]:
     """
-    Normalize diagnosis text to standard category and severity.
-    
-    Implements fuzzy string matching with longest-match-first strategy for
-    robustness against typos and variable formatting. Handles all 140+ keywords
-    organized by condition type.
-    
+    THE MAIN DIAGNOSIS STANDARDIZER - converts messy text to clean categories.
+
+    PROBLEM THIS SOLVES:
+    - Datasets use different terminology: "DR", "diabetic retinopathy", "retinopathy due to diabetes"
+    - Inconsistent severity descriptions: "mild", "NPDR", "non-proliferative"
+    - Typos and formatting variations in raw data
+
+    HOW IT WORKS:
+    1. Clean the input text (lowercase, remove punctuation)
+    2. Look for matches in our DIAGNOSIS_MAPPING dictionary
+    3. Use longest-match-first to prefer specific terms over general ones
+    4. Return standardized (category, severity) tuple
+
+    EXAMPLE TRANSFORMATIONS:
+    "mod npdr" → ('Diabetic Retinopathy', 'Moderate')
+    "amd wet" → ('Age-Related Macular Degeneration', 'Severe')
+    "no dr" → ('Normal', None)
+
+    WHY THIS APPROACH:
+    - Deterministic: Same input always gives same output
+    - Fast: Dictionary lookup, no ML inference
+    - Maintainable: Can add new mappings without retraining
+    - Auditable: Can trace how any decision was made
+
     Args:
-        diagnosis_text: Raw diagnosis string from dataset
-        
+        diagnosis_text: Raw diagnosis string from dataset (can be None/messy)
+
     Returns:
-        Tuple of (diagnosis_category, severity) e.g., ('Diabetic Retinopathy', 'Mild')
+        Tuple of (diagnosis_category, severity) - both can be None if no match
+        Examples: ('Diabetic Retinopathy', 'Mild'), ('Normal', None), (None, None)
     """
     if not diagnosis_text:
         return (None, None)
-    
-    # Normalize input: lowercase, remove punctuation
+
+    # STEP 1: Clean and normalize the input text
+    # Why? Raw data often has inconsistent formatting, punctuation, case
     diagnosis_lower = str(diagnosis_text).lower().strip()
-    diagnosis_clean = re.sub(r'[^\w\s]', '', diagnosis_lower)
-    
-    # Try exact substring matches (longest first for specificity)
+    diagnosis_clean = re.sub(r'[^\w\s]', '', diagnosis_lower)  # Remove punctuation
+
+    # STEP 2: Try to match against our comprehensive mapping
+    # Strategy: Sort by length (longest first) to match specific terms before general ones
+    # Example: "proliferative diabetic retinopathy" should match "proliferative diabetic retinopathy"
+    # before just "diabetic retinopathy" or "proliferative"
     sorted_keys = sorted(DIAGNOSIS_MAPPING.keys(), key=len, reverse=True)
     for key in sorted_keys:
         if key in diagnosis_clean:
-            return DIAGNOSIS_MAPPING[key]
-    
-    # If no match found, return unknown
+            category, severity = DIAGNOSIS_MAPPING[key]
+            return (category, severity)
+
+    # STEP 3: No match found - return None (unknown diagnosis)
+    # This preserves data integrity rather than guessing
     return (None, None)
 
 
