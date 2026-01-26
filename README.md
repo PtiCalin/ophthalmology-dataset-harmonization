@@ -201,10 +201,12 @@ python -m pytest test_expanded_rules.py -v
 
 | File | Content |
 |------|---------|
-| **SCHEMA.md** | Complete field reference (122 fields) |
-| **RULES.md** | Diagnosis mapping & inference rules |
-| **CODEBOOK.md** | Data dictionary & enum values |
-| **UPDATES.md** | Enhancement history & roadmap |
+| [docs/INDEX.md](docs/INDEX.md) | Documentation entry point |
+| [docs/METHODOLOGY.md](docs/METHODOLOGY.md) | Methodology and theoretical framework |
+| [docs/data-processing/SCHEMA.md](docs/data-processing/SCHEMA.md) | Complete field reference (122 fields) |
+| [docs/data-processing/RULES.md](docs/data-processing/RULES.md) | Diagnosis mapping & inference rules |
+| [docs/data-processing/CODEBOOK.md](docs/data-processing/CODEBOOK.md) | Data dictionary & enum values |
+| [docs/UPDATES.md](docs/UPDATES.md) | Enhancement history & roadmap |
 
 ---
 
