@@ -261,7 +261,9 @@ Very Severe  - Terminal/worst-case scenario
 | Adult | 18-65 | Working age |
 | Elderly | 65-130 | Senior/geriatric |
 
-**Valid range: 0-130 years**
+### Range validity
+
+**Valid range:** 0-130 years
 
 ---
 
@@ -283,6 +285,7 @@ Very Severe  - Terminal/worst-case scenario
 ## Clinical Finding Types (37 Values)
 
 ### Hemorrhage Subtypes (5)
+
 - Hemorrhages (general)
 - Microhemorrhages (tiny)
 - Dot-blot hemorrhages (intraretinal)
@@ -290,34 +293,40 @@ Very Severe  - Terminal/worst-case scenario
 - Preretinal hemorrhage (subhyaloid)
 
 ### Exudate Subtypes (3)
+
 - Hard exudates (lipid, yellow)
 - Soft exudates (cotton wool, white spots)
 - Exudates (general)
 
 ### Microstructure (3)
+
 - Microaneurysms
 - Microaneurysm clusters
 - Dot-blot lesions
 
 ### Edema & Fluid (4)
+
 - Macular edema
 - Retinal thickening
 - Serous detachment
 - Cystoid cysts
 
 ### Neovascularization (4)
+
 - Neovascularization (general)
 - Neovascular disc (NVD)
 - Choroidal neovascularization (CNV)
 - Retinal neovascularization
 
 ### Vascular Changes (4)
+
 - Vessel tortuosity
 - Vessel narrowing
 - Vessel beading
 - Arteriovenous nicking
 
 ### Retinal Changes (7)
+
 - Cotton wool spots
 - Retinal folds
 - Hard drusen
@@ -327,12 +336,14 @@ Very Severe  - Terminal/worst-case scenario
 - Retinal thinning
 
 ### Optic Nerve (4)
+
 - Optic disc pallor
 - Optic disc cupping
 - Optic nerve swelling
 - Large cup-disc ratio
 
 ### Other (6)
+
 - Vitreous hemorrhage
 - Subretinal hemorrhage
 - Retinal detachment
