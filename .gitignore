@@ -1,6 +1,33 @@
 # .gitignore for Ophthalmology Dataset Harmonization Project
 
-# Python
+## Development tools
+/.claude/
+
+### Virtual Environments
+venv/
+ENV/
+env/
+.venv
+
+#### Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints
+.jupyter/
+
+#### OS files
+Thumbs.db
+.DS_Store
+
+### IDEs
+.vscode/
+.vs/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+### Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -25,26 +52,14 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-# Virtual Environments
-venv/
-ENV/
-env/
-.venv
+#### mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
 
-# IDEs
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
+## Files
 
-# Jupyter Notebook
-.ipynb_checkpoints
-*.ipynb_checkpoints
-.jupyter/
-
-# Data files and outputs
+### Data files and outputs
 output/*.parquet
 output/*.csv
 data/
@@ -52,27 +67,23 @@ datasets/
 *.pkl
 *.pickle
 
-# Temporary files
+### Temporary files
 tmp/
 temp/
 *.tmp
 *.log
+/.draft/
 
-# OS files
-Thumbs.db
-.DS_Store
-
-# Test coverage
+### Test files
 .coverage
 htmlcov/
 .pytest_cache/
 .tox/
+tests/
 
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Large data files
+### Large data files
 *.zip
 *.tar.gz
+
+### Cache files
+.cache/

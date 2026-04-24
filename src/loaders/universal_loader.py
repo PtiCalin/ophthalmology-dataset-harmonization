@@ -94,6 +94,7 @@ class UniversalLoader:
                            Format: {'dataset_column': 'schema_field'}
                            Use when auto-detection fails or for custom datasets
         """
+        """
         self.dataset_name = dataset_name
         self.column_mapping = column_mapping or {}
         self.auto_detected_columns: Dict[str, str] = {}
@@ -324,7 +325,3 @@ class UniversalLoader:
             'errors': self.load_errors[:10],  # First 10 errors
             'warnings': self.warnings[:10],  # First 10 warnings
         }
-
-
-
-
